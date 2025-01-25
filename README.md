@@ -2,6 +2,8 @@
 Mercer Engineering Smart Car Team Project
 
 
-Run:
+For initial setup:
+Press Ctrl+Shift+B and select "Run setup_env.sh".
 
-To run this task automatically when opening the folder, you can use an extension like "Run on Folder Open" or manually run the task by pressing Ctrl+Shift+B and selecting "Run setup_env.sh".
+Each time before development:
+./venv/Scripts/activate

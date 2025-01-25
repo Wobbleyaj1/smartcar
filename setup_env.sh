@@ -1,6 +1,3 @@
-#!/bin/bash
-
-# Check if Python is installed
 if ! command -v python &> /dev/null
 then
     echo "Python could not be found. Please install Python."
