@@ -1,4 +1,5 @@
 import RPi.GPIO as GPIO
+from gpiozero import Button
 from time import sleep
 
 # Stops all warnings from appearing
@@ -15,10 +16,8 @@ pwm = GPIO.PWM(16, 50)
 pwm.start(7.5) # Start the servo at neutral position (0 deg position)
 
 # Set up the GPIO pins for the buttons
-BUTTON_UP = 2
-BUTTON_DOWN = 3
-GPIO.setup(BUTTON_UP, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(BUTTON_DOWN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+BUTTON_UP = Button(2)
+BUTTON_DOWN = Button(3)
 
 try:
     duty_cycle = 7.5 # Neutral position
