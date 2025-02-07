@@ -1,5 +1,4 @@
 import RPi.GPIO as GPIO
-from gpiozero import Button
 from time import sleep
 
 # Stops all warnings from appearing
@@ -16,18 +15,20 @@ pwm = GPIO.PWM(16, 50)
 pwm.start(7.5) # Start the servo at neutral position (0 deg position)
 
 # Set up the GPIO pins for the buttons
-BUTTON_UP = Button(2)
-BUTTON_DOWN = Button(3)
+BUTTON_UP = 3  # GPIO pin 2 corresponds to BOARD pin 3
+BUTTON_DOWN = 5  # GPIO pin 3 corresponds to BOARD pin 5
+GPIO.setup(BUTTON_UP, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(BUTTON_DOWN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 try:
     duty_cycle = 7.5 # Neutral position
     while True:
-        if BUTTON_UP.is_pressed: # Button pressed
+        if GPIO.input(BUTTON_UP) == GPIO.LOW: # Button pressed
             duty_cycle += 0.1 # Increase duty cycle to turn right
             if duty_cycle > 12.5: # Limit to +90 deg position
                 duty_cycle = 12.5
             pwm.ChangeDutyCycle(duty_cycle)
-        elif BUTTON_DOWN.is_pressed: # Button pressed
+        elif GPIO.input(BUTTON_DOWN) == GPIO.LOW: # Button pressed
             duty_cycle -= 0.1 # Decrease duty cycle to turn left
             if duty_cycle < 2.5: # Limit to -90 deg position
                 duty_cycle = 2.5
