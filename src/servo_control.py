@@ -10,7 +10,8 @@ SERVO_PIN_1 = 22
 SERVO_PIN_2 = 18
 
 # Set initial duty cycle
-duty_cycle = 7.5  # Neutral position (90 degrees)
+duty_cycle_1 = 7.5  # Neutral position (90 degrees)
+duty_cycle_2 = 7.5  # Neutral position (90 degrees)
 
 # Set PWM frequency to 50Hz (standard for servos)
 pi.set_PWM_frequency(SERVO_PIN_1, 50)
