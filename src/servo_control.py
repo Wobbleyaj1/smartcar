@@ -35,43 +35,37 @@ try:
         button_down_state_2 = GPIO.input(BUTTON_DOWN_2)
         print(f"Button UP state: {button_up_state_1}, Button DOWN state: {button_down_state_1}")
 
-        # if button_up_state_1 == GPIO.HIGH:  # Button pressed
-        #     duty_cycle += 0.1  # Increase duty cycle to turn right
-        #     if duty_cycle > 12.5:  # Limit to +90 deg position
-        #         duty_cycle = 12.5
-        #     pulse_width = 500 + (duty_cycle - 2.5) * 200  # Convert duty cycle to pulse width
-        #     pi.set_servo_pulsewidth(SERVO_PIN_1, pulse_width)
-        #     print(f"Button UP pressed. Duty cycle increased to {duty_cycle}, pulse width set to {pulse_width}")
-        # elif button_down_state_1 == GPIO.HIGH:  # Button pressed
-        #     duty_cycle -= 0.1  # Decrease duty cycle to turn left
-        #     if duty_cycle < 6:  # Limit to -90 deg position
-        #         duty_cycle = 6
-        #     pulse_width = 500 + (duty_cycle - 2.5) * 200  # Convert duty cycle to pulse width
-        #     pi.set_servo_pulsewidth(SERVO_PIN_1, pulse_width)
-        #     print(f"Button DOWN pressed. Duty cycle decreased to {duty_cycle}, pulse width set to {pulse_width}")
-
+        # Control servo 1
         if button_up_state_1 == GPIO.HIGH:  # Button pressed
-            duty_cycle_1 += 10  # Increase duty cycle to turn right
-            if duty_cycle_1 > 2500:  # Limit to +90 deg position
-                duty_cycle_1 = 2500
-            pi.set_servo_pulsewidth(SERVO_PIN_1, duty_cycle_1)
+            duty_cycle_1 += 0.1  # Increase duty cycle to turn right
+            if duty_cycle_1 > 12.5:  # Limit to +90 deg position
+                duty_cycle_1 = 12.5
+            pulse_width_1 = 500 + (duty_cycle_1 - 2.5) * 200  # Convert duty cycle to pulse width
+            pi.set_servo_pulsewidth(SERVO_PIN_1, pulse_width_1)
+            print(f"Button UP pressed. Duty cycle increased to {duty_cycle_1}, pulse width set to {pulse_width_1}")
         elif button_down_state_1 == GPIO.HIGH:  # Button pressed
-            duty_cycle_1 -= 10  # Decrease duty cycle to turn left
-            if duty_cycle_1 < 500:  # Limit to -90 deg position
-                duty_cycle_1 = 500
-            pi.set_servo_pulsewidth(SERVO_PIN_1, duty_cycle_1)
+            duty_cycle_1 -= 0.1  # Decrease duty cycle to turn left
+            if duty_cycle_1 < 6:  # Limit to -90 deg position
+                duty_cycle_1 = 6
+            pulse_width_1 = 500 + (duty_cycle_1 - 2.5) * 200  # Convert duty cycle to pulse width
+            pi.set_servo_pulsewidth(SERVO_PIN_1, pulse_width_1)
+            print(f"Button DOWN pressed. Duty cycle decreased to {duty_cycle_1}, pulse width set to {pulse_width_1}")
 
         # Control servo 2
         if button_up_state_2 == GPIO.HIGH:  # Button pressed
-            duty_cycle_2 += 10  # Increase duty cycle to turn right
-            if duty_cycle_2 > 2500:  # Limit to +90 deg position
-                duty_cycle_2 = 2500
-            pi.set_servo_pulsewidth(SERVO_PIN_2, duty_cycle_2)
+            duty_cycle_2 += 0.1  # Increase duty cycle to turn right
+            if duty_cycle_2 > 12.5:  # Limit to +90 deg position
+                duty_cycle_2 = 12.5
+            pulse_width_2 = 500 + (duty_cycle_2 - 2.5) * 200  # Convert duty cycle to pulse width
+            pi.set_servo_pulsewidth(SERVO_PIN_2, pulse_width_2)
+            print(f"Button UP pressed. Duty cycle increased to {duty_cycle_2}, pulse width set to {pulse_width_2}")
         elif button_down_state_2 == GPIO.HIGH:  # Button pressed
-            duty_cycle_2 -= 10  # Decrease duty cycle to turn left
-            if duty_cycle_2 < 500:  # Limit to -90 deg position
-                duty_cycle_2 = 500
-            pi.set_servo_pulsewidth(SERVO_PIN_2, duty_cycle_2)
+            duty_cycle_2 -= 0.1  # Decrease duty cycle to turn left
+            if duty_cycle_2 < 6:  # Limit to -90 deg position
+                duty_cycle_2 = 6
+            pulse_width_2 = 500 + (duty_cycle_2 - 2.5) * 200  # Convert duty cycle to pulse width
+            pi.set_servo_pulsewidth(SERVO_PIN_2, pulse_width_2)
+            print(f"Button DOWN pressed. Duty cycle decreased to {duty_cycle_2}, pulse width set to {pulse_width_2}")
         sleep(0.01)  # Small delay to debounce
 except KeyboardInterrupt:
     pass
