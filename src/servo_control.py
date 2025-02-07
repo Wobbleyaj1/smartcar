@@ -22,12 +22,12 @@ BUTTON_DOWN = Button(3)
 try:
     duty_cycle = 7.5 # Neutral position
     while True:
-        if GPIO.input(BUTTON_UP) == GPIO.LOW: # Button pressed
+        if BUTTON_UP.is_pressed: # Button pressed
             duty_cycle += 0.1 # Increase duty cycle to turn right
             if duty_cycle > 12.5: # Limit to +90 deg position
                 duty_cycle = 12.5
             pwm.ChangeDutyCycle(duty_cycle)
-        elif GPIO.input(BUTTON_DOWN) == GPIO.LOW: # Button pressed
+        elif BUTTON_DOWN.is_pressed: # Button pressed
             duty_cycle -= 0.1 # Decrease duty cycle to turn left
             if duty_cycle < 2.5: # Limit to -90 deg position
                 duty_cycle = 2.5
