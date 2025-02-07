@@ -37,12 +37,12 @@ try:
             print(f"Button UP pressed. Duty cycle increased to {duty_cycle}, pulse width set to {pulse_width}")
         elif button_down_state == GPIO.HIGH:  # Button pressed
             duty_cycle -= 0.1  # Decrease duty cycle to turn left
-            if duty_cycle < 2.5:  # Limit to -90 deg position
-                duty_cycle = 2.5
+            if duty_cycle < 6:  # Limit to -90 deg position
+                duty_cycle = 6
             pulse_width = 500 + (duty_cycle - 2.5) * 200  # Convert duty cycle to pulse width
             pi.set_servo_pulsewidth(SERVO_PIN, pulse_width)
             print(f"Button DOWN pressed. Duty cycle decreased to {duty_cycle}, pulse width set to {pulse_width}")
-        sleep(0.1)  # Small delay to debounce
+        sleep(0.01)  # Small delay to debounce
 except KeyboardInterrupt:
     pass
 finally:
