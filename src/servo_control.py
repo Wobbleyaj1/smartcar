@@ -1,12 +1,12 @@
 import RPi.GPIO as GPIO
 from time import sleep
-import keyboard
 
 # Stops all warnings from appearing
 GPIO.setwarnings(False)
 
 # We name all the pins on BOARD mode
 GPIO.setmode(GPIO.BOARD)
+
 # Set an output for the PWM Signal
 GPIO.setup(16, GPIO.OUT)
 
@@ -14,15 +14,21 @@ GPIO.setup(16, GPIO.OUT)
 pwm = GPIO.PWM(16, 50)
 pwm.start(7.5) # Start the servo at neutral position (0 deg position)
 
+# Set up the GPIO pins for the buttons
+BUTTON_UP = 2
+BUTTON_DOWN = 3
+GPIO.setup(BUTTON_UP, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(BUTTON_DOWN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 try:
     duty_cycle = 7.5 # Neutral position
     while True:
-        if keyboard.is_pressed('up'):
+        if GPIO.input(BUTTON_UP) == GPIO.LOW: # Button pressed
             duty_cycle += 0.1 # Increase duty cycle to turn right
             if duty_cycle > 12.5: # Limit to +90 deg position
                 duty_cycle = 12.5
             pwm.ChangeDutyCycle(duty_cycle)
-        elif keyboard.is_pressed('down'):
+        elif GPIO.input(BUTTON_DOWN) == GPIO.LOW: # Button pressed
             duty_cycle -= 0.1 # Decrease duty cycle to turn left
             if duty_cycle < 2.5: # Limit to -90 deg position
                 duty_cycle = 2.5
