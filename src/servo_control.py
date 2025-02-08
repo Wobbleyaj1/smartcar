@@ -29,9 +29,17 @@ class ServoControl:
         GPIO.setup(self.BUTTON_UP_2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         GPIO.setup(self.BUTTON_DOWN_2, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
+    def return_to_neutral(self):
+        pulse_width_1 = 500 + (self.duty_cycle_1 - 2.5) * 200
+        pulse_width_2 = 500 + (self.duty_cycle_2 - 2.5) * 200
+        self.pi.set_servo_pulsewidth(self.SERVO_PIN_1, pulse_width_1)
+        self.pi.set_servo_pulsewidth(self.SERVO_PIN_2, pulse_width_2)
+        sleep(0.1)
+
     def run(self):
         try:
             print("Starting servo control loop...")
+            self.return_to_neutral()  # Approach neutral position before starting the loop
             while not self.stop_event.is_set():
                 button_up_state_1 = GPIO.input(self.BUTTON_UP_1)
                 button_down_state_1 = GPIO.input(self.BUTTON_DOWN_1)
