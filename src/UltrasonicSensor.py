@@ -22,11 +22,25 @@ try:
         time.sleep(0.00001)
         GPIO.output(TRIG, False)
 
+        timeout = time.time() + 1  # 1 second timeout
         while GPIO.input(ECHO) == 0:
             pulse_start = time.time()
+            if time.time() > timeout:
+                pulse_start = None
+                break
 
+        if pulse_start is None:
+            continue
+
+        timeout = time.time() + 1  # 1 second timeout
         while GPIO.input(ECHO) == 1:
             pulse_end = time.time()
+            if time.time() > timeout:
+                pulse_end = None
+                break
+
+        if pulse_end is None:
+            continue
 
         pulse_duration = pulse_end - pulse_start
         distance = pulse_duration * 17150
