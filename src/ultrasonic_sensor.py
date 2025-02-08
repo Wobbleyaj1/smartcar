@@ -4,15 +4,15 @@ import RPi.GPIO as GPIO
 class UltrasonicSensor:
     def __init__(self, stop_event):
         self.stop_event = stop_event
-        GPIO.setmode(GPIO.BCM)
         self.TRIG = 23
         self.ECHO = 24
-        GPIO.setup(self.TRIG, GPIO.OUT)
-        GPIO.setup(self.ECHO, GPIO.IN)
         self.previous_distance = None
 
     def run(self):
         try:
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(self.TRIG, GPIO.OUT)
+            GPIO.setup(self.ECHO, GPIO.IN)
             print("Distance measurement in progress")
             while not self.stop_event.is_set():
                 GPIO.output(self.TRIG, False)
