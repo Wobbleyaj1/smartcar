@@ -11,6 +11,8 @@ print("Distance measurement in progress")
 GPIO.setup(TRIG, GPIO.OUT)  
 GPIO.setup(ECHO, GPIO.IN)
 
+previous_distance = None
+
 try:
     while True:
         GPIO.output(TRIG, False)
@@ -29,7 +31,10 @@ try:
         pulse_duration = pulse_end - pulse_start
         distance = pulse_duration * 17150
         distance = round(distance, 2)
-        print("Distance:", distance, "cm")
+
+        if previous_distance is None or abs(distance - previous_distance) >= 10:
+            print("Distance:", distance, "cm")
+            previous_distance = distance
 
 except KeyboardInterrupt:
     print("Measurement stopped by user")
