@@ -1,9 +1,10 @@
 # smartcar
 Mercer Engineering Smart Car Team Project
 
-
-For initial setup:
-Press Ctrl+Shift+B and select "Run setup_env.sh".
+For Initial Development Environment Setup:
+./setup_env.sh
+python -m venv venv
 
 Each time before development:
 ./venv/Scripts/activate
+pip install -r requirements.txt
