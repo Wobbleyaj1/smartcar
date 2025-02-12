@@ -6,5 +6,8 @@ For Initial Development Environment Setup:
 python -m venv venv
 
 Each time before development:
-./venv/Scripts/activate
+(if pc):
+    ./venv/Scripts/activate
+(if RPi):
+    ./venv/bin/activate
 pip install -r requirements.txt
