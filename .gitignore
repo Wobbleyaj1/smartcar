@@ -130,3 +130,7 @@ cython_debug/
 
 # VS Code settings
 .vscode/
+
+# DataSets
+computerMouseDataSet/
+mouseDS/
