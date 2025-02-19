@@ -11,8 +11,8 @@ SERVO_UP_MAX = 180
 SERVO_UP_MIN = 0
 SERVO_DOWN_MAX = 180
 SERVO_DOWN_MIN = 0
-STEP = 5
-STEP_DELAY = 0.1
+STEP = 1
+STEP_DELAY = 0.01
 
 # Global variables
 ServoUpDegree = 90
