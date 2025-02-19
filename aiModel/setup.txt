@@ -1,0 +1,53 @@
+# Setup Instructions for AI Model
+
+## Requirements
+- Python
+- YOLOv5 for object detection
+- Roboflow for picture annotation
+
+## Steps
+
+1. Install Python:
+   ```
+   sudo apt-get update
+   sudo apt-get install python3 python3-pip
+   ```
+
+2. Clone the YOLOv5 repository:
+   ```
+   cd aiModel
+   git clone https://github.com/ultralytics/yolov5
+   cd yolov5
+   pip install -r requirements.txt
+   ```
+
+3. Annotate pictures using Roboflow:
+   - Create a Roboflow account and follow their instructions to annotate your dataset.
+   - Export the dataset in YOLO format.
+
+4. Place your unzipped dataset in the `yolov5` directory:
+   ```
+   cp -r /path/to/your/dataset yolov5/
+   ```
+
+5. Make sure the yaml file has the correct paths and copy it into the data folder.
+
+6. Run the training script:
+   ```
+   python train.py --data data.yaml --weights yolov5s.pt --img 640
+   ```
+
+7. Test run the model on your PC:
+   ```
+   python detect.py --weights ../computerMouseDataSet/best.pt --source 0
+   ```
+
+8. Convert the YOLOv5 model to ONNX format for better performance on Raspberry Pi:
+   ```
+   python export.py --weights yolov5s.pt --img 640 --batch 1 --device 0 --include onnx
+   ```
+
+9. Run the model on Raspberry Pi:
+   ```
+   python detect.py --weights yolov5s.onnx --source 0
+   ```
