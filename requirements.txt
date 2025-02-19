@@ -1,3 +1,4 @@
 gpiozero
 RPi.GPIO
-keyboard
+picamera 
+opencv-python
