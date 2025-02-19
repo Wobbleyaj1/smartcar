@@ -129,7 +129,22 @@ def processKeyboardEvent():
 
 def main():
     PCA9685_setPWMFreq(60)  # Set frequency to 60 Hz
-    processKeyboardEvent()
+    
+    # Move all the way to the left
+    while ServoDownDegree > SERVO_DOWN_MIN:
+        ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
+    
+    # Move all the way to the right
+    while ServoDownDegree < SERVO_DOWN_MAX:
+        ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
+    
+    # Move all the way down
+    while ServoUpDegree > SERVO_UP_MIN:
+        ServoDegreeDecrease(SERVO_UP_CH, STEP)
+    
+    # Move all the way up
+    while ServoUpDegree < SERVO_UP_MAX:
+        ServoDegreeIncrease(SERVO_UP_CH, STEP)
 
 if __name__ == "__main__":
     main()
