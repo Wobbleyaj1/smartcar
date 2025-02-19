@@ -126,3 +126,10 @@ def processKeyboardEvent():
                     ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
                 elif keyVal == 'D':
                     ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
+
+def main():
+    PCA9685_setPWMFreq(60)  # Set frequency to 60 Hz
+    processKeyboardEvent()
+
+if __name__ == "__main__":
+    main()
