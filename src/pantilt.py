@@ -85,12 +85,14 @@ def ServoDegreeIncrease(Channel, Step):
             ServoUpDegree = SERVO_UP_MAX
         else:
             ServoUpDegree += Step
+        print(f"Increasing ServoUpDegree to {ServoUpDegree}")
         setServoDegree(Channel, ServoUpDegree)
     elif Channel == SERVO_DOWN_CH:
         if ServoDownDegree >= SERVO_DOWN_MAX:
             ServoDownDegree = SERVO_DOWN_MAX
         else:
             ServoDownDegree += Step
+        print(f"Increasing ServoDownDegree to {ServoDownDegree}")
         setServoDegree(Channel, ServoDownDegree)
     time.sleep(STEP_DELAY)
 
@@ -101,12 +103,14 @@ def ServoDegreeDecrease(Channel, Step):
             ServoUpDegree = SERVO_UP_MIN
         else:
             ServoUpDegree -= Step
+        print(f"Decreasing ServoUpDegree to {ServoUpDegree}")
         setServoDegree(Channel, ServoUpDegree)
     elif Channel == SERVO_DOWN_CH:
         if ServoDownDegree <= SERVO_DOWN_MIN + Step:
             ServoDownDegree = SERVO_DOWN_MIN
         else:
             ServoDownDegree -= Step
+        print(f"Decreasing ServoDownDegree to {ServoDownDegree}")
         setServoDegree(Channel, ServoDownDegree)
     time.sleep(STEP_DELAY)
 
