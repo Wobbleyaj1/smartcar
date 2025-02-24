@@ -2,6 +2,7 @@ from picamera2 import Picamera2, Preview
 import cv2
 import time
 import torch
+import torchvision
 from servo_control import ServoControl
 import threading
 
