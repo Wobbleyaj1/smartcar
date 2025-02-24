@@ -1,3 +1,4 @@
 gpiozero
 RPi.GPIO
 opencv-python
+smbus
