@@ -128,20 +128,25 @@ def processKeyboardEvent():
                     ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
 
 def main():
+    print("Setting PWM frequency to 60 Hz")
     PCA9685_setPWMFreq(60)  # Set frequency to 60 Hz
     
+    print("Moving all the way to the left")
     # Move all the way to the left
     while ServoDownDegree > SERVO_DOWN_MIN:
         ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
     
+    print("Moving all the way to the right")
     # Move all the way to the right
     while ServoDownDegree < SERVO_DOWN_MAX:
         ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
     
+    print("Moving all the way down")
     # Move all the way down
     while ServoUpDegree > SERVO_UP_MIN:
         ServoDegreeDecrease(SERVO_UP_CH, STEP)
     
+    print("Moving all the way up")
     # Move all the way up
     while ServoUpDegree < SERVO_UP_MAX:
         ServoDegreeIncrease(SERVO_UP_CH, STEP)
