@@ -1,4 +1,4 @@
 gpiozero
 RPi.GPIO
-picamera 
+picamera2
 opencv-python
