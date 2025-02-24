@@ -2,9 +2,8 @@ from picamera2 import Picamera2, Preview
 import cv2
 import time
 import torch
-import torchvision
-from servo_control import ServoControl
 import threading
+from servo_control import ServoControl
 
 # Initialize the camera
 picam2 = Picamera2()
@@ -12,7 +11,7 @@ picam2.configure(picam2.create_preview_configuration(main={"size": (640, 480)}))
 picam2.start()
 
 # Load the object detection model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='mouseModel.pt')
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='mouseModel.pt', source='local')
 
 # Initialize servo control
 stop_event = threading.Event()
