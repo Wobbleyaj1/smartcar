@@ -1,0 +1,53 @@
+import spidev
+import time
+
+# Initialize SPI
+spi = spidev.SpiDev()
+spi.open(0, 0)  # Bus 0, Device 0
+spi.max_speed_hz = 1350000  # Adjust if needed
+
+# Sensor channels on MCP3008
+LEFT_SENSOR = 0
+CENTER_SENSOR = 1
+RIGHT_SENSOR = 2
+
+# Threshold to detect boundaries (adjust based on calibration)
+THRESHOLD = 500  
+
+def read_adc(channel):
+    """Reads the ADC value from MCP3008 (0-1023)"""
+    adc = spi.xfer2([1, (8 + channel) << 4, 0])  # SPI communication
+    value = ((adc[1] & 3) << 8) + adc[2]  # Convert to 10-bit value
+    return value
+
+def main():
+    """Main loop for boundary detection"""
+    try:
+        while True:
+            left_value = read_adc(LEFT_SENSOR)
+            center_value = read_adc(CENTER_SENSOR)
+            right_value = read_adc(RIGHT_SENSOR)
+
+            print(f"L: {left_value}  C: {center_value}  R: {right_value}")
+
+            if center_value < THRESHOLD:
+                print("FULL boundary detected! Reversing...")
+                # Insert robot reverse movement code here
+            elif left_value < THRESHOLD:
+                print("Left boundary detected! Turning right...")
+                # Insert robot right turn movement code here
+            elif right_value < THRESHOLD:
+                print("Right boundary detected! Turning left...")
+                # Insert robot left turn movement code here
+            else:
+                print("Path clear, moving forward...")
+                # Insert robot forward movement code here
+
+            time.sleep(0.1)
+
+    except KeyboardInterrupt:
+        print("Exiting...")
+        spi.close()
+
+if __name__ == "__main__":
+    main()
