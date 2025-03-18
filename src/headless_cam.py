@@ -1,11 +1,5 @@
 from picamera2 import Picamera2
-from ultralytics import YOLO
 import time
-import cv2
-import numpy as np
-
-# Load the pre-trained model
-model = YOLO('mouseModel.pt')  # Ensure mouseModel.pt is in the same directory
 
 # Initialize the camera
 picam2 = Picamera2()
@@ -24,19 +18,9 @@ try:
         # Capture a frame
         frame = picam2.capture_array()
 
-        # Convert the frame to RGB (if needed by the model)
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-        # Run the frame through the model
-        results = model.predict(source=rgb_frame, conf=0.6, verbose=False)
-
-        # Parse the results
-        for result in results:
-            for box in result.boxes:
-                x1, y1, x2, y2 = box.xyxy[0].tolist()
-                conf = box.conf[0].item()
-                if conf >= 0.6:  # Check confidence threshold
-                    print(f"Mouse detected with {conf:.2f} confidence at [{x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f}]")
+        # Process the frame (e.g., save it, analyze it, etc.)
+        # For now, we'll just print a message to indicate a frame was captured
+        print("Frame captured")
 
         # Add a small delay to simulate processing time
         time.sleep(0.1)
