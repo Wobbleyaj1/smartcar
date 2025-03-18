@@ -4,7 +4,11 @@ import time
 
 # Initialize the camera
 picam2 = Picamera2()
-picam2.configure(picam2.create_preview_configuration(main={"size": (320, 240), "format": "RGB888", "fps": 30}))
+picam2.configure(picam2.create_preview_configuration(main={"size": (320, 240), "format": "RGB888"}))
+
+# Set the frame rate
+picam2.set_controls({"FrameRate": 30})
+
 picam2.start()
 
 # Allow the camera to warm up
