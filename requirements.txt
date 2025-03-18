@@ -2,3 +2,6 @@ gpiozero
 RPi.GPIO
 opencv-python
 smbus
+torch
+torchvision
+ultralytics
