@@ -11,7 +11,7 @@ picam2.set_controls({"FrameRate": 30})
 picam2.start()
 
 # Allow the camera to warm up
-time.sleep(0.1)
+time.sleep(0.001)
 
 try:
     while True:
