@@ -1,12 +1,11 @@
 from picamera2 import Picamera2
-import torch
+from ultralytics import YOLO
 import time
 import cv2
 import numpy as np
 
 # Load the pre-trained model
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='mouseModel.pt')  # Ensure mouseModel.pt is in the same directory
-model.conf = 0.6  # Set confidence threshold to 60%
+model = YOLO('mouseModel.pt')  # Ensure mouseModel.pt is in the same directory
 
 # Initialize the camera
 picam2 = Picamera2()
@@ -29,13 +28,15 @@ try:
         rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Run the frame through the model
-        results = model(rgb_frame)
+        results = model.predict(source=rgb_frame, conf=0.6, verbose=False)
 
         # Parse the results
-        for detection in results.xyxy[0]:  # Iterate through detections
-            x1, y1, x2, y2, conf, cls = detection.tolist()
-            if conf >= 0.6:  # Check confidence threshold
-                print(f"Mouse detected with {conf:.2f} confidence at [{x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f}]")
+        for result in results:
+            for box in result.boxes:
+                x1, y1, x2, y2 = box.xyxy[0].tolist()
+                conf = box.conf[0].item()
+                if conf >= 0.6:  # Check confidence threshold
+                    print(f"Mouse detected with {conf:.2f} confidence at [{x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f}]")
 
         # Add a small delay to simulate processing time
         time.sleep(0.1)
