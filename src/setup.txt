@@ -1,0 +1,4 @@
+
+
+to run python_detect.py:
+    python yolo_detect.py --model=yolov5nu_ncnn_model --source=picamera0 --resolution=1280x720
