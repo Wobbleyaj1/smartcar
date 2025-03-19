@@ -51,3 +51,101 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''import wiringpi as wp
+import time
+
+class QTRSensorThread:
+    def __init__(self, stop_event):
+        self.stop_event = stop_event
+        self.wp = wp
+        self.wp.wiringPiSetupGpio()
+
+        self.SENSOR_PINS = [23, 24, 25]  # Adjust to your setup
+        self.LEDON_PIN = 21
+
+        self.NUM_SENSORS = len(self.SENSOR_PINS)
+        self.CHARGE_TIME = 10
+        self.READING_TIMEOUT = 1000
+
+        self.sensorValues = [0] * self.NUM_SENSORS
+        self.calibratedMax = [0] * self.NUM_SENSORS
+        self.calibratedMin = [self.READING_TIMEOUT] * self.NUM_SENSORS
+
+        self.init_pins()
+        self.calibrate()
+
+    def init_pins(self):
+        for pin in self.SENSOR_PINS:
+            self.wp.pullUpDnControl(pin, self.wp.PUD_DOWN)
+        self.wp.pinMode(self.LEDON_PIN, self.wp.OUTPUT)
+
+    def emitters_on(self):
+        self.wp.digitalWrite(self.LEDON_PIN, self.wp.HIGH)
+        self.wp.delayMicroseconds(20)
+
+    def emitters_off(self):
+        self.wp.digitalWrite(self.LEDON_PIN, self.wp.LOW)
+        self.wp.delayMicroseconds(20)
+
+    def read_sensors(self):
+        for i in range(self.NUM_SENSORS):
+            self.sensorValues[i] = self.READING_TIMEOUT
+
+        for pin in self.SENSOR_PINS:
+            self.wp.pinMode(pin, self.wp.OUTPUT)
+            self.wp.digitalWrite(pin, self.wp.HIGH)
+
+        self.wp.delayMicroseconds(self.CHARGE_TIME)
+
+        for pin in self.SENSOR_PINS:
+            self.wp.pinMode(pin, self.wp.INPUT)
+            self.wp.digitalWrite(pin, self.wp.LOW)
+
+        startTime = self.wp.micros()
+        while self.wp.micros() - startTime < self.READING_TIMEOUT:
+            elapsed = self.wp.micros() - startTime
+            for i, pin in enumerate(self.SENSOR_PINS):
+                if self.wp.digitalRead(pin) == 0 and elapsed < self.sensorValues[i]:
+                    self.sensorValues[i] = elapsed
+
+    def read_calibrated(self):
+        self.read_sensors()
+        for i in range(self.NUM_SENSORS):
+            max_val = self.calibratedMax[i]
+            min_val = self.calibratedMin[i]
+            if max_val - min_val == 0:
+                self.sensorValues[i] = 0
+            else:
+                val = (self.sensorValues[i] - min_val) * 1000 // (max_val - min_val)
+                self.sensorValues[i] = max(0, min(1000, val))
+
+    def calibrate(self):
+        print("Calibrating QTR sensors...")
+        for _ in range(100):
+            self.read_sensors()
+            for i in range(self.NUM_SENSORS):
+                val = self.sensorValues[i]
+                if val > self.calibratedMax[i]:
+                    self.calibratedMax[i] = val
+                if val < self.calibratedMin[i] and val > 30:
+                    self.calibratedMin[i] = val
+            self.wp.delay(20)
+        print("Calibration complete.")
+
+    def run(self):
+        try:
+            while not self.stop_event.is_set():
+                self.emitters_on()
+                self.read_calibrated()
+                self.emitters_off()
+
+                for i, val in enumerate(self.sensorValues):
+                    if val > 700:
+                        print(f"[QTR] Board detected under sensor {i}")
+
+                time.sleep(0.5)
+
+        except Exception as e:
+            self.emitters_off()
+            print("[QTR] Error:", e)
+'''
