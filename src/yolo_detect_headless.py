@@ -35,7 +35,7 @@ class YOLODetector:
                 object_count = 0
 
                 # Process detections
-                print("\nDetected objects in the current frame:")
+                detected_objects = []
                 for i in range(len(detections)):
                     # Get bounding box coordinates
                     xyxy_tensor = detections[i].xyxy.cpu()
@@ -50,13 +50,21 @@ class YOLODetector:
                     # Filter detections by confidence threshold
                     if conf > self.confidence_threshold:
                         object_count += 1
-                        print(f"Object {object_count}:")
-                        print(f"  Type: {classname}")
-                        print(f"  Confidence: {conf:.2f}")
-                        print(f"  Bounding Box: [xmin: {xmin}, ymin: {ymin}, xmax: {xmax}, ymax: {ymax}]")
+                        detected_objects.append({
+                            "type": classname,
+                            "confidence": conf,
+                            "bounding_box": [xmin, ymin, xmax, ymax]
+                        })
 
-                # Print total number of objects detected
-                print(f"Total objects detected: {object_count}")
+                # Print detection details only if objects are detected
+                if object_count > 0:
+                    print("\nDetected objects in the current frame:")
+                    for idx, obj in enumerate(detected_objects, start=1):
+                        print(f"Object {idx}:")
+                        print(f"  Type: {obj['type']}")
+                        print(f"  Confidence: {obj['confidence']:.2f}")
+                        print(f"  Bounding Box: {obj['bounding_box']}")
+                    print(f"Total objects detected: {object_count}")
 
                 # Add a small delay to avoid overwhelming the terminal
                 time.sleep(0.1)
