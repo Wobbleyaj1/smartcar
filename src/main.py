@@ -2,6 +2,7 @@ import threading
 import signal
 from servo_control import ServoControl
 from ultrasonic_sensor import UltrasonicSensor
+from qtr_sensor import QTRSensorThread 
 
 def main():
     stop_event = threading.Event()
