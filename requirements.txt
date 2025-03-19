@@ -5,4 +5,4 @@ smbus
 torch
 torchvision
 ultralytics
-onnxruntime
+git+https://github.com/Tencent/ncnn.git
