@@ -4,7 +4,7 @@ import time
 
 # Initialize the camera
 picam2 = Picamera2()
-picam2.configure(picam2.create_preview_configuration(main={"size": (320, 240), "format": "RGB888"}))
+picam2.configure(picam2.create_preview_configuration(main={"size": (160, 120), "format": "RGB888"}))
 
 # Set the frame rate
 picam2.set_controls({"FrameRate": 30})
@@ -18,8 +18,11 @@ while True:
     # Capture a frame
     frame = picam2.capture_array()
 
-    # Display the frame
-    cv2.imshow("Camera Feed", frame)
+    # Convert the frame to grayscale
+    gray_frame = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+
+    # Display the grayscale frame
+    cv2.imshow("Camera Feed", gray_frame)
 
     # Exit on 'q' key press
     if cv2.waitKey(1) & 0xFF == ord('q'):
