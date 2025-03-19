@@ -132,5 +132,4 @@ cython_debug/
 .vscode/
 
 # DataSets
-computerMouseDataSet/
-mouseDS/
+datasets/

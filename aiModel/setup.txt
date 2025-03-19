@@ -39,7 +39,7 @@
 
 7. Test run the model on your PC:
    ```
-   python detect.py --weights ../computerMouseDataSet/best.pt --source 0
+   python detect.py --weights mouseModel.pt --source 0
    ```
 
 8. Convert the YOLOv5 model to ONNX format for better performance on Raspberry Pi:

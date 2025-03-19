@@ -3,11 +3,11 @@ Mercer Engineering Smart Car Team Project
 
 For Initial Development Environment Setup:
 ./setup_env.sh
-python -m venv venv
+python3 -m venv --system-site-packages venv
 
 Each time before development:
 (if pc):
-    ./venv/Scripts/activate
+    source ./venv/Scripts/activate
 (if RPi):
-    ./venv/bin/activate
+    source ./venv/bin/activate
 pip install -r requirements.txt
