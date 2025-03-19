@@ -86,7 +86,7 @@ class HeadlessCamera:
 if __name__ == "__main__":
     # Pass the YOLO model path as a parameter
     model_path = "yolov5s.pt"  # Ensure this file exists in the working directory
-    camera = HeadlessCamera(resolution=(320, 240), frame_rate=30, model_path=model_path)
+    camera = HeadlessCamera(resolution=(160, 120), frame_rate=30, model_path=model_path)
     camera.start()
 
     try:
