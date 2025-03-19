@@ -1,5 +1,4 @@
 from picamera2 import Picamera2
-from ultralytics import YOLO
 import time
 import cv2
 import threading
@@ -18,7 +17,8 @@ class HeadlessCamera:
         self.picam2.configure(self.picam2.create_preview_configuration(main={"size": resolution, "format": "RGB888"}))
         self.picam2.set_controls({"FrameRate": frame_rate})
         self.running = False
-        self.model = YOLO(model_path) if model_path else None  # Load YOLO model if provided
+        # Commented out YOLO model initialization
+        # self.model = YOLO(model_path) if model_path else None
         self.frame_queue = queue.Queue(maxsize=5)  # Queue to hold frames for processing
 
     def start(self):
@@ -52,41 +52,34 @@ class HeadlessCamera:
             print("Exiting capture thread...")
 
     def process_frames(self):
-        """Continuously process frames from the queue using the YOLO model."""
+        """Continuously process frames from the queue."""
         try:
             while self.running:
                 if not self.frame_queue.empty():
                     frame = self.frame_queue.get()
-                    if self.model:
-                        self.process_frame_with_model(frame)
+                    self.process_frame(frame)  # Process the frame
         except KeyboardInterrupt:
             print("Exiting processing thread...")
 
-    def process_frame_with_model(self, frame):
+    def process_frame(self, frame):
         """
-        Process the captured frame using the YOLO model.
+        Process the captured frame by printing the color of the middle pixel.
 
         :param frame: The captured frame as a NumPy array.
         """
-        # Convert the frame to RGB (if needed by the model)
-        rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # Get the dimensions of the frame
+        height, width, _ = frame.shape
 
-        # Run the frame through the YOLO model
-        results = self.model.predict(source=rgb_frame, conf=0.6, verbose=False)
+        # Calculate the coordinates of the middle pixel
+        mid_x, mid_y = width // 2, height // 2
 
-        # Parse and print the detected objects
-        for result in results:
-            for box in result.boxes:
-                x1, y1, x2, y2 = box.xyxy[0].tolist()
-                conf = box.conf[0].item()
-                cls = self.model.names[int(box.cls[0].item())]  # Get class name
-                print(f"Detected {cls} with {conf:.2f} confidence at [{x1:.0f}, {y1:.0f}, {x2:.0f}, {y2:.0f}]")
+        # Get the color of the middle pixel (in RGB format)
+        middle_pixel_color = frame[mid_y, mid_x]
+        print(f"Middle pixel color (RGB): {middle_pixel_color}")
 
 # Example usage
 if __name__ == "__main__":
-    # Pass the YOLO model path as a parameter
-    model_path = "yolov5s.pt"  # Ensure this file exists in the working directory
-    camera = HeadlessCamera(resolution=(160, 120), frame_rate=30, model_path=model_path)
+    camera = HeadlessCamera(resolution=(160, 120), frame_rate=30)
     camera.start()
 
     try:
