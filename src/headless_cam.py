@@ -1,3 +1,6 @@
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 from picamera2 import Picamera2
 import time
 import cv2
