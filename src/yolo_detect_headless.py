@@ -7,7 +7,7 @@ from picamera2 import Picamera2
 # Configuration
 MODEL_PATH = "yolov5nu_ncnn_model"  # Replace with the path to your YOLO model
 RESOLUTION = (1280, 720)  # Resolution for the Picamera
-CONFIDENCE_THRESHOLD = 0.5  # Minimum confidence threshold for detections
+CONFIDENCE_THRESHOLD = 0.6  # Minimum confidence threshold for detections
 
 # Load the YOLO model
 model = YOLO(MODEL_PATH, task='detect')
