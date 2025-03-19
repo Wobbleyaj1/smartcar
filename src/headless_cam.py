@@ -2,6 +2,8 @@ from picamera2 import Picamera2
 from ultralytics import YOLO
 import time
 import cv2
+import threading
+import queue
 
 class HeadlessCamera:
     def __init__(self, resolution=(320, 240), frame_rate=30, model_path=None):
@@ -17,37 +19,48 @@ class HeadlessCamera:
         self.picam2.set_controls({"FrameRate": frame_rate})
         self.running = False
         self.model = YOLO(model_path) if model_path else None  # Load YOLO model if provided
+        self.frame_queue = queue.Queue(maxsize=5)  # Queue to hold frames for processing
 
     def start(self):
-        """Start the camera."""
+        """Start the camera and processing threads."""
         self.picam2.start()
         time.sleep(0.1)  # Allow the camera to warm up
         self.running = True
         print("Camera started")
 
+        # Start the frame capturing thread
+        threading.Thread(target=self.capture_frames, daemon=True).start()
+
+        # Start the frame processing thread
+        threading.Thread(target=self.process_frames, daemon=True).start()
+
     def stop(self):
         """Stop the camera."""
-        self.picam2.stop()
         self.running = False
+        self.picam2.stop()
         print("Camera stopped")
 
     def capture_frames(self):
-        """Capture frames in a loop."""
+        """Continuously capture frames and add them to the queue."""
         try:
             while self.running:
-                # Capture a frame
-                frame = self.picam2.capture_array()
-
-                # Process the frame using the YOLO model (if provided)
-                if self.model:
-                    self.process_frame_with_model(frame)
-
-                # Add a small delay to simulate processing time
-                time.sleep(0.1)
+                if not self.frame_queue.full():
+                    frame = self.picam2.capture_array()
+                    self.frame_queue.put(frame)
+                time.sleep(0.01)  # Small delay to avoid overloading the queue
         except KeyboardInterrupt:
-            print("Exiting...")
-        finally:
-            self.stop()
+            print("Exiting capture thread...")
+
+    def process_frames(self):
+        """Continuously process frames from the queue using the YOLO model."""
+        try:
+            while self.running:
+                if not self.frame_queue.empty():
+                    frame = self.frame_queue.get()
+                    if self.model:
+                        self.process_frame_with_model(frame)
+        except KeyboardInterrupt:
+            print("Exiting processing thread...")
 
     def process_frame_with_model(self, frame):
         """
@@ -75,4 +88,9 @@ if __name__ == "__main__":
     model_path = "yolov5s.pt"  # Ensure this file exists in the working directory
     camera = HeadlessCamera(resolution=(320, 240), frame_rate=30, model_path=model_path)
     camera.start()
-    camera.capture_frames()
+
+    try:
+        while True:
+            time.sleep(1)  # Keep the main thread alive
+    except KeyboardInterrupt:
+        camera.stop()
