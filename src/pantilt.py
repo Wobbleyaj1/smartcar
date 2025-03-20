@@ -135,14 +135,21 @@ def main():
     print("Setting PWM frequency to 60 Hz")
     PCA9685_setPWMFreq(60)  # Set frequency to 60 Hz
 
-    print("Moving all the way to the right (starting point)")
-    # Move all the way to the right (90°)
-    while ServoDownDegree < SERVO_DOWN_MAX:
+    print("Moving to the starting position (90°)")
+    # Move to the starting position (90°)
+    while ServoDownDegree > 90:
+        ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
+    while ServoDownDegree < 90:
         ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
 
-    print("Moving all the way to the left")
-    # Move all the way to the left (270°)
-    while ServoDownDegree > SERVO_DOWN_MIN:
+    print("Panning from 90° to 270° clockwise")
+    # Pan from 90° to 270° clockwise
+    while ServoDownDegree < 270:
+        ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
+
+    print("Panning back from 270° to 90° counterclockwise")
+    # Pan back from 270° to 90° counterclockwise
+    while ServoDownDegree > 90:
         ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
 
     print("Moving all the way down")
