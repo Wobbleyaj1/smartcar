@@ -18,7 +18,7 @@ class PanTiltController:
     def __init__(self):
         # Global variables
         self.ServoUpDegree = 90
-        self.ServoDownDegree = 90
+        self.ServoDownDegree = self.SERVO_DOWN_MAX  # Start at the maximum position (opposite side)
 
         # I2C bus
         self.bus = smbus.SMBus(1)
@@ -134,19 +134,19 @@ class PanTiltController:
     def run(self):
         print("Setting PWM frequency to 60 Hz")
         self.PCA9685_setPWMFreq(60)  # Set frequency to 60 Hz
-        
-        print("Moving all the way to the left")
+
+        print("Moving all the way to the right (starting point)")
         while self.ServoDownDegree > self.SERVO_DOWN_MIN:
             self.ServoDegreeDecrease(self.SERVO_DOWN_CH, self.STEP)
-        
-        print("Moving all the way to the right")
+
+        print("Moving all the way to the left")
         while self.ServoDownDegree < self.SERVO_DOWN_MAX:
             self.ServoDegreeIncrease(self.SERVO_DOWN_CH, self.STEP)
-        
+
         print("Moving all the way down")
         while self.ServoUpDegree > self.SERVO_UP_MIN:
             self.ServoDegreeDecrease(self.SERVO_UP_CH, self.STEP)
-        
+
         print("Moving all the way up")
         while self.ServoUpDegree < self.SERVO_UP_MAX:
             self.ServoDegreeIncrease(self.SERVO_UP_CH, self.STEP)
