@@ -88,7 +88,7 @@ def ServoDegreeIncrease(Channel, Step):
         print(f"Increasing ServoUpDegree to {ServoUpDegree}")
         setServoDegree(Channel, ServoUpDegree)
     elif Channel == SERVO_DOWN_CH:
-        if ServoDownDegree >= SERVO_DOWN_MAX:  # Clamp to 180°
+        if ServoDownDegree >= SERVO_DOWN_MAX:
             ServoDownDegree = SERVO_DOWN_MAX
         else:
             ServoDownDegree += Step
@@ -106,7 +106,7 @@ def ServoDegreeDecrease(Channel, Step):
         print(f"Decreasing ServoUpDegree to {ServoUpDegree}")
         setServoDegree(Channel, ServoUpDegree)
     elif Channel == SERVO_DOWN_CH:
-        if ServoDownDegree <= SERVO_DOWN_MIN + Step:  # Clamp to 0°
+        if ServoDownDegree <= SERVO_DOWN_MIN + Step:
             ServoDownDegree = SERVO_DOWN_MIN
         else:
             ServoDownDegree -= Step
@@ -134,36 +134,22 @@ def processKeyboardEvent():
 def main():
     print("Setting PWM frequency to 60 Hz")
     PCA9685_setPWMFreq(60)  # Set frequency to 60 Hz
-
-    print("Correcting starting position if out of range")
-    # If ServoDownDegree is out of range, bring it back to a valid position
-    while ServoDownDegree > SERVO_DOWN_MAX:
+    
+    print("Moving all the way to the left")
+    # Move all the way to the left
+    while ServoDownDegree > SERVO_DOWN_MIN:
         ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
-    while ServoDownDegree < SERVO_DOWN_MIN:
+    
+    print("Moving all the way to the right")
+    # Move all the way to the right
+    while ServoDownDegree < SERVO_DOWN_MAX:
         ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
-
-    print("Moving to the starting position (90°)")
-    # Move to the starting position (90°)
-    while ServoDownDegree > 90:
-        ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
-    while ServoDownDegree < 90:
-        ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
-
-    print("Panning from 90° to 180° clockwise")
-    # Pan from 90° to 180° clockwise
-    while ServoDownDegree < 180:
-        ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
-
-    print("Panning back from 180° to 90° counterclockwise")
-    # Pan back from 180° to 90° counterclockwise
-    while ServoDownDegree > 90:
-        ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
-
+    
     print("Moving all the way down")
     # Move all the way down
     while ServoUpDegree > SERVO_UP_MIN:
         ServoDegreeDecrease(SERVO_UP_CH, STEP)
-
+    
     print("Moving all the way up")
     # Move all the way up
     while ServoUpDegree < SERVO_UP_MAX:
