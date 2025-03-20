@@ -88,7 +88,7 @@ def ServoDegreeIncrease(Channel, Step):
         print(f"Increasing ServoUpDegree to {ServoUpDegree}")
         setServoDegree(Channel, ServoUpDegree)
     elif Channel == SERVO_DOWN_CH:
-        if ServoDownDegree >= SERVO_DOWN_MAX:
+        if ServoDownDegree >= SERVO_DOWN_MAX:  # Clamp to 180°
             ServoDownDegree = SERVO_DOWN_MAX
         else:
             ServoDownDegree += Step
@@ -106,7 +106,7 @@ def ServoDegreeDecrease(Channel, Step):
         print(f"Decreasing ServoUpDegree to {ServoUpDegree}")
         setServoDegree(Channel, ServoUpDegree)
     elif Channel == SERVO_DOWN_CH:
-        if ServoDownDegree <= SERVO_DOWN_MIN + Step:
+        if ServoDownDegree <= SERVO_DOWN_MIN + Step:  # Clamp to 0°
             ServoDownDegree = SERVO_DOWN_MIN
         else:
             ServoDownDegree -= Step
@@ -135,6 +135,13 @@ def main():
     print("Setting PWM frequency to 60 Hz")
     PCA9685_setPWMFreq(60)  # Set frequency to 60 Hz
 
+    print("Correcting starting position if out of range")
+    # If ServoDownDegree is out of range, bring it back to a valid position
+    while ServoDownDegree > SERVO_DOWN_MAX:
+        ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
+    while ServoDownDegree < SERVO_DOWN_MIN:
+        ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
+
     print("Moving to the starting position (90°)")
     # Move to the starting position (90°)
     while ServoDownDegree > 90:
@@ -142,13 +149,13 @@ def main():
     while ServoDownDegree < 90:
         ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
 
-    print("Panning from 90° to 270° clockwise")
-    # Pan from 90° to 270° clockwise
-    while ServoDownDegree < 270:
+    print("Panning from 90° to 180° clockwise")
+    # Pan from 90° to 180° clockwise
+    while ServoDownDegree < 180:
         ServoDegreeIncrease(SERVO_DOWN_CH, STEP)
 
-    print("Panning back from 270° to 90° counterclockwise")
-    # Pan back from 270° to 90° counterclockwise
+    print("Panning back from 180° to 90° counterclockwise")
+    # Pan back from 180° to 90° counterclockwise
     while ServoDownDegree > 90:
         ServoDegreeDecrease(SERVO_DOWN_CH, STEP)
 
