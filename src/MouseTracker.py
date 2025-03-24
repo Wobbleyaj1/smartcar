@@ -10,10 +10,11 @@ class MouseTracker:
         self.frame_center = (resolution[0] // 2, resolution[1] // 2)
         self.tolerance = 50  # Pixels tolerance for centering
 
-    def track_mouse(self):
-        print("Initializing PanTiltController...")
-        self.controller.run()  # Initialize the PanTiltController
+        # Initialize the pan-tilt mechanism to the middle position
+        print("Initializing PanTiltController to the middle position...")
+        self.controller.initialize_to_middle()
 
+    def track_mouse(self):
         print("Starting mouse tracking...")
         try:
             while True:
