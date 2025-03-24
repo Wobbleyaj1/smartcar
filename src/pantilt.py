@@ -132,7 +132,7 @@ class PanTiltController:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         return ch
 
-    def run(self):
+    def test(self):
         print("Initializing PCA9685...")
         self.pca9685_reset()
         self.pca9685_set_pwm_freq(60)
@@ -153,7 +153,26 @@ class PanTiltController:
         while self.servo_up_degree < self.SERVO_UP_MAX:
             self.servo_degree_increase(self.SERVO_UP_CH, self.STEP)
 
+    def initialize_to_middle(self):
+        """
+        Initialize the pan-tilt mechanism and move it to the middle point.
+        """
+        print("Initializing PCA9685 and moving to the middle point...")
+        self.pca9685_reset()
+        self.pca9685_set_pwm_freq(60)
+
+        # Calculate middle points
+        self.servo_up_degree = (self.SERVO_UP_MAX + self.SERVO_UP_MIN) // 2
+        self.servo_down_degree = (self.SERVO_DOWN_MAX + self.SERVO_DOWN_MIN) // 2
+
+        # Move servos to the middle point
+        self.set_servo_degree(self.SERVO_UP_CH, self.servo_up_degree)
+        self.set_servo_degree(self.SERVO_DOWN_CH, self.servo_down_degree)
+
+        print(f"Moved to middle point: ServoUpDegree={self.servo_up_degree}, ServoDownDegree={self.servo_down_degree}")
+
 
 if __name__ == "__main__":
     controller = PanTiltController()
-    controller.run()
+    controller.initialize_to_middle()  # Initialize and move to the middle
+    controller.test()  # Run the default behavior
