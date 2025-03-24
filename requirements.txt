@@ -1,3 +1,8 @@
 gpiozero
 RPi.GPIO
-keyboard
+opencv-python
+smbus
+torch
+torchvision
+ultralytics
+git+https://github.com/Tencent/ncnn.git
