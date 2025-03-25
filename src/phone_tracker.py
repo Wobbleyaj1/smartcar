@@ -50,7 +50,7 @@ class PhoneTracker:
                     step_y = min(abs(offset_y) // 10, 10)  # Scale step size, max 10
 
                     # Adjust pan-tilt to center the phone
-                    if abs(offset_x) > 10:  # Threshold to avoid jitter
+                    if abs(offset_x) > 40:  # Threshold to avoid jitter
                         if offset_x > 0:
                             # Move right to align the bounding box center
                             self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_DOWN_CH, step_x)
