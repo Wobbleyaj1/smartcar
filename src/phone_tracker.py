@@ -4,11 +4,14 @@ import time
 import cv2
 
 class PhoneTracker:
-    def __init__(self, model_path, object="cell phone", resolution=(1280, 720), confidence_threshold=0.6):
+    def __init__(self, model_path, object="cell phone", resolution=(640, 360), confidence_threshold=0.6):
         self.pan_tilt = PanTiltController()
         self.detector = YOLODetector(model_path, resolution, confidence_threshold)
         self.phone_label = object
         self.frame_width, self.frame_height = resolution
+
+        # Initialize the pan-tilt mechanism to the middle position
+        self.pan_tilt.initialize_to_middle()
 
     def track_phone(self):
         try:
@@ -17,7 +20,11 @@ class PhoneTracker:
                 # Capture a frame and run object detection
                 frame_bgra = self.detector.picam.capture_array()
                 frame = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
-                results = self.detector.model(frame, verbose=False)
+                
+                # Resize the frame to a smaller resolution for faster inference
+                frame_resized = cv2.resize(frame, (320, 180))  # Example: Resize to 320x180
+                results = self.detector.model(frame_resized, verbose=False)
+                
                 detections = results[0].boxes
 
                 # Find the phone in the detections
@@ -50,7 +57,7 @@ class PhoneTracker:
                     step_y = min(abs(offset_y) // 10, 10)  # Scale step size, max 10
 
                     # Adjust pan-tilt to center the phone
-                    if abs(offset_x) > 10:  # Threshold to avoid jitter
+                    if abs(offset_x) > 40:  # Threshold to avoid jitter
                         if offset_x > 0:
                             # Move right to align the bounding box center
                             self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_DOWN_CH, step_x)
@@ -66,7 +73,8 @@ class PhoneTracker:
                             # Move up to align the bounding box center
                             self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_UP_CH, step_y)
 
-                time.sleep(0.1)  # Add a small delay to avoid overwhelming the system
+                # Reduce the delay to improve responsiveness
+                time.sleep(0.02)  # 20ms delay for smoother updates
 
         except KeyboardInterrupt:
             print("\nStopping phone tracking...")
