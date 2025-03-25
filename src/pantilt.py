@@ -12,7 +12,7 @@ class PanTiltController:
     SERVO_UP_MIN = 0
     SERVO_DOWN_MAX = 180
     SERVO_DOWN_MIN = 0
-    STEP = 5  # Increase step size for faster movement
+    STEP = 1
     STEP_DELAY = 0.005  # Reduce delay for quicker response
 
     # PCA9685 Registers
