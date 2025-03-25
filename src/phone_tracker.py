@@ -8,7 +8,7 @@ class MouseTracker:
         self.detector = YOLODetector(model_path, resolution, confidence_threshold)
         self.controller = PanTiltController()
         self.frame_center = (resolution[0] // 2, resolution[1] // 2)
-        self.tolerance = 50  # Pixels tolerance for centering
+        self.tolerance = 20  # Pixels tolerance for centering
 
         # Initialize the pan-tilt mechanism to the middle position
         print("Initializing PanTiltController to the middle position...")
@@ -57,17 +57,23 @@ class MouseTracker:
 
         # Adjust horizontal (pan)
         if abs(x_diff) > self.tolerance:
+            steps = abs(x_diff) // self.controller.STEP  # Calculate number of steps
             if x_diff > 0:
-                self.controller.servo_degree_increase(self.controller.SERVO_DOWN_CH, self.controller.STEP)
+                for _ in range(steps):
+                    self.controller.servo_degree_increase(self.controller.SERVO_DOWN_CH, self.controller.STEP)
             else:
-                self.controller.servo_degree_decrease(self.controller.SERVO_DOWN_CH, self.controller.STEP)
+                for _ in range(steps):
+                    self.controller.servo_degree_decrease(self.controller.SERVO_DOWN_CH, self.controller.STEP)
 
         # Adjust vertical (tilt)
         if abs(y_diff) > self.tolerance:
+            steps = abs(y_diff) // self.controller.STEP  # Calculate number of steps
             if y_diff > 0:
-                self.controller.servo_degree_increase(self.controller.SERVO_UP_CH, self.controller.STEP)
+                for _ in range(steps):
+                    self.controller.servo_degree_increase(self.controller.SERVO_UP_CH, self.controller.STEP)
             else:
-                self.controller.servo_degree_decrease(self.controller.SERVO_UP_CH, self.controller.STEP)
+                for _ in range(steps):
+                    self.controller.servo_degree_decrease(self.controller.SERVO_UP_CH, self.controller.STEP)
 
 
 if __name__ == "__main__":
