@@ -33,7 +33,7 @@ class PhoneTracker:
                         phone_bbox = xyxy.astype(int)  # [xmin, ymin, xmax, ymax]
                         break
 
-                if phone_bbox:
+                if phone_bbox is not None:
                     # Calculate the center of the phone's bounding box
                     xmin, ymin, xmax, ymax = phone_bbox
                     bbox_center_x = (xmin + xmax) // 2
