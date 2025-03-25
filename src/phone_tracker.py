@@ -45,22 +45,26 @@ class PhoneTracker:
                     offset_x = bbox_center_x - frame_center_x
                     offset_y = bbox_center_y - frame_center_y
 
+                    # Dynamically adjust step size based on the offset
+                    step_x = min(abs(offset_x) // 10, 10)  # Scale step size, max 10
+                    step_y = min(abs(offset_y) // 10, 10)  # Scale step size, max 10
+
                     # Adjust pan-tilt to center the phone
                     if abs(offset_x) > 10:  # Threshold to avoid jitter
                         if offset_x > 0:
                             # Move right to align the bounding box center
-                            self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_DOWN_CH, self.pan_tilt.STEP)
+                            self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_DOWN_CH, step_x)
                         else:
                             # Move left to align the bounding box center
-                            self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_DOWN_CH, self.pan_tilt.STEP)
+                            self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_DOWN_CH, step_x)
 
                     if abs(offset_y) > 20:  # Threshold to avoid jitter
                         if offset_y > 0:
                             # Move down to align the bounding box center
-                            self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_UP_CH, self.pan_tilt.STEP)
+                            self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_UP_CH, step_y)
                         else:
                             # Move up to align the bounding box center
-                            self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_UP_CH, self.pan_tilt.STEP)
+                            self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_UP_CH, step_y)
 
                 time.sleep(0.1)  # Add a small delay to avoid overwhelming the system
 
