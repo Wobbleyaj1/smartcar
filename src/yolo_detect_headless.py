@@ -16,7 +16,7 @@ class YOLODetector:
 
         # Initialize the Picamera
         self.picam = Picamera2()
-        self.picam.configure(self.picam.create_video_configuration(main={"format": 'XRGB8888', "size": self.resolution, "fps": 30}))
+        self.picam.configure(self.picam.create_video_configuration(main={"format": 'XRGB8888', "size": self.resolution}))
         self.picam.start()
 
     def detect_objects(self):
