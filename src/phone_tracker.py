@@ -46,16 +46,20 @@ class PhoneTracker:
                     offset_y = bbox_center_y - frame_center_y
 
                     # Adjust pan-tilt to center the phone
-                    if abs(offset_x) > 20:  # Threshold to avoid jitter
+                    if abs(offset_x) > 10:  # Threshold to avoid jitter
                         if offset_x > 0:
+                            # Move right to align the bounding box center
                             self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_DOWN_CH, self.pan_tilt.STEP)
                         else:
+                            # Move left to align the bounding box center
                             self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_DOWN_CH, self.pan_tilt.STEP)
 
                     if abs(offset_y) > 20:  # Threshold to avoid jitter
                         if offset_y > 0:
+                            # Move down to align the bounding box center
                             self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_UP_CH, self.pan_tilt.STEP)
                         else:
+                            # Move up to align the bounding box center
                             self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_UP_CH, self.pan_tilt.STEP)
 
                 time.sleep(0.1)  # Add a small delay to avoid overwhelming the system
