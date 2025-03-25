@@ -10,6 +10,9 @@ class PhoneTracker:
         self.phone_label = object
         self.frame_width, self.frame_height = resolution
 
+        # Initialize the pan-tilt mechanism to the middle position
+        self.pan_tilt.initialize_to_middle()
+
     def track_phone(self):
         try:
             print("Starting phone tracking...")
