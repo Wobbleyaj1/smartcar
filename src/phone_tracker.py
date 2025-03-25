@@ -57,23 +57,24 @@ class MouseTracker:
 
         # Adjust horizontal (pan)
         if abs(x_diff) > self.tolerance:
-            steps = abs(x_diff) // self.controller.STEP  # Calculate number of steps
             if x_diff > 0:
-                for _ in range(steps):
-                    self.controller.servo_degree_increase(self.controller.SERVO_DOWN_CH, self.controller.STEP)
+                new_degree = min(self.controller.servo_down_degree + abs(x_diff) // self.controller.STEP, self.controller.SERVO_DOWN_MAX)
+                self.controller.set_servo_degree(self.controller.SERVO_DOWN_CH, new_degree)
             else:
-                for _ in range(steps):
-                    self.controller.servo_degree_decrease(self.controller.SERVO_DOWN_CH, self.controller.STEP)
+                new_degree = max(self.controller.servo_down_degree - abs(x_diff) // self.controller.STEP, self.controller.SERVO_DOWN_MIN)
+                self.controller.set_servo_degree(self.controller.SERVO_DOWN_CH, new_degree)
+            print(f"x_diff: {x_diff}, y_diff: {y_diff}")
+            print(f"New ServoDownDegree: {new_degree} (Pan)")
 
         # Adjust vertical (tilt)
         if abs(y_diff) > self.tolerance:
-            steps = abs(y_diff) // self.controller.STEP  # Calculate number of steps
             if y_diff > 0:
-                for _ in range(steps):
-                    self.controller.servo_degree_increase(self.controller.SERVO_UP_CH, self.controller.STEP)
+                new_degree = min(self.controller.servo_up_degree + abs(y_diff) // self.controller.STEP, self.controller.SERVO_UP_MAX)
+                self.controller.set_servo_degree(self.controller.SERVO_UP_CH, new_degree)
             else:
-                for _ in range(steps):
-                    self.controller.servo_degree_decrease(self.controller.SERVO_UP_CH, self.controller.STEP)
+                new_degree = max(self.controller.servo_up_degree - abs(y_diff) // self.controller.STEP, self.controller.SERVO_UP_MIN)
+                self.controller.set_servo_degree(self.controller.SERVO_UP_CH, new_degree)
+            print(f"New ServoUpDegree: {new_degree} (Tilt)")
 
 
 if __name__ == "__main__":
