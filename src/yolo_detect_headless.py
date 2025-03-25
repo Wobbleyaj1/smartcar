@@ -5,7 +5,7 @@ from ultralytics import YOLO
 from picamera2 import Picamera2
 
 class YOLODetector:
-    def __init__(self, model_path, resolution=(1280, 720), confidence_threshold=0.6):
+    def __init__(self, model_path, resolution=(640,360), confidence_threshold=0.6):
         self.model_path = model_path
         self.resolution = resolution
         self.confidence_threshold = confidence_threshold
@@ -16,7 +16,7 @@ class YOLODetector:
 
         # Initialize the Picamera
         self.picam = Picamera2()
-        self.picam.configure(self.picam.create_video_configuration(main={"format": 'XRGB8888', "size": self.resolution}))
+        self.picam.configure(self.picam.create_video_configuration(main={"format": 'XRGB8888', "size": self.resolution, "fps": 30}))
         self.picam.start()
 
     def detect_objects(self):
@@ -65,9 +65,6 @@ class YOLODetector:
                         print(f"  Confidence: {obj['confidence']:.2f}")
                         print(f"  Bounding Box: {obj['bounding_box']}")
                     print(f"Total objects detected: {object_count}")
-
-                # Add a small delay to avoid overwhelming the terminal
-                time.sleep(0.1)
 
         except KeyboardInterrupt:
             print("\nStopping detection...")
