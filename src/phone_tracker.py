@@ -67,5 +67,5 @@ class PhoneTracker:
 
 # Example usage
 if __name__ == "__main__":
-    tracker = PhoneTracker(model_path="yolov5nu_ncnn_model", object="mouse")
+    tracker = PhoneTracker(model_path="yolov5nu_ncnn_model", object="person")
     tracker.track_phone()
