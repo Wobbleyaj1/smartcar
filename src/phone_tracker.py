@@ -1,6 +1,7 @@
 from pantilt import PanTiltController
 from yolo_detect_headless import YOLODetector
 import time
+import cv2
 
 class PhoneTracker:
     def __init__(self, model_path, phone_label="phone", resolution=(1280, 720), confidence_threshold=0.6):
