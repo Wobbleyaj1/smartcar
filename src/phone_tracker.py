@@ -17,7 +17,11 @@ class PhoneTracker:
                 # Capture a frame and run object detection
                 frame_bgra = self.detector.picam.capture_array()
                 frame = cv2.cvtColor(frame_bgra, cv2.COLOR_BGRA2BGR)
-                results = self.detector.model(frame, verbose=False)
+                
+                # Resize the frame to a smaller resolution for faster inference
+                frame_resized = cv2.resize(frame, (320, 180))  # Example: Resize to 320x180
+                results = self.detector.model(frame_resized, verbose=False)
+                
                 detections = results[0].boxes
 
                 # Find the phone in the detections
@@ -66,7 +70,8 @@ class PhoneTracker:
                             # Move up to align the bounding box center
                             self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_UP_CH, step_y)
 
-                time.sleep(0.1)  # Add a small delay to avoid overwhelming the system
+                # Reduce the delay to improve responsiveness
+                time.sleep(0.02)  # 20ms delay for smoother updates
 
         except KeyboardInterrupt:
             print("\nStopping phone tracking...")
