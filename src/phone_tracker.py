@@ -4,7 +4,7 @@ import time
 import cv2
 
 class PhoneTracker:
-    def __init__(self, model_path, object="cell phone", resolution=(1280, 720), confidence_threshold=0.6):
+    def __init__(self, model_path, object="cell phone", resolution=(640, 360), confidence_threshold=0.6):
         self.pan_tilt = PanTiltController()
         self.detector = YOLODetector(model_path, resolution, confidence_threshold)
         self.phone_label = object
