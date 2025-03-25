@@ -30,7 +30,7 @@ class MouseTracker:
                     classname = self.detector.labels[classidx]
                     conf = detections[i].conf.item()
 
-                    if classname == "mouse" and conf > self.detector.confidence_threshold:
+                    if classname == "cell phone" and conf > self.detector.confidence_threshold:
                         # Get bounding box
                         xyxy_tensor = detections[i].xyxy.cpu()
                         xyxy = xyxy_tensor.numpy().squeeze()
