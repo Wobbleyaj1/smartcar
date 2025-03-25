@@ -4,10 +4,10 @@ import time
 import cv2
 
 class PhoneTracker:
-    def __init__(self, model_path, phone_label="phone", resolution=(1280, 720), confidence_threshold=0.6):
+    def __init__(self, model_path, object="cell phone", resolution=(1280, 720), confidence_threshold=0.6):
         self.pan_tilt = PanTiltController()
         self.detector = YOLODetector(model_path, resolution, confidence_threshold)
-        self.phone_label = phone_label
+        self.phone_label = object
         self.frame_width, self.frame_height = resolution
 
     def track_phone(self):
@@ -67,5 +67,5 @@ class PhoneTracker:
 
 # Example usage
 if __name__ == "__main__":
-    tracker = PhoneTracker(model_path="yolov5nu_ncnn_model", phone_label="phone")
+    tracker = PhoneTracker(model_path="yolov5nu_ncnn_model", object="cell phone")
     tracker.track_phone()
