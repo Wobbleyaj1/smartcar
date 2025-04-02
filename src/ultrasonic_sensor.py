@@ -22,6 +22,7 @@ class UltrasonicSensor:
                 time.sleep(0.00001)
                 GPIO.output(self.TRIG, False)
 
+                pulse_start = None  # Initialize pulse_start to None
                 timeout = time.time() + 1  # 1 second timeout
                 while GPIO.input(self.ECHO) == 0:
                     pulse_start = time.time()
