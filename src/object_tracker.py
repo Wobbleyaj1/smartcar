@@ -17,7 +17,7 @@ class ObjectTracker:
 
             # Start the camera
             print("Starting object tracking...")
-            detection_count = 0
+            total_detections = 0
             start_time = time.time()  # Start the timer
 
             while True:
@@ -38,7 +38,7 @@ class ObjectTracker:
                         xyxy_tensor = detections[i].xyxy.cpu()
                         xyxy = xyxy_tensor.numpy().squeeze()
                         object_bbox = xyxy.astype(int)  # [xmin, ymin, xmax, ymax]
-                        detection_count += 1  # Increment detection count
+                        total_detections += 1  # Increment detection count
                         break
 
                 if object_bbox is not None:
@@ -74,12 +74,12 @@ class ObjectTracker:
                             # Move up to align the bounding box center
                             self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_UP_CH, step_y)
 
-                # Log detections per second
+                # Check if one minute has passed
                 elapsed_time = time.time() - start_time
-                if elapsed_time >= 1.0:  # Log every second
-                    print(f"Detections per second: {detection_count}")
-                    detection_count = 0  # Reset the count
-                    start_time = time.time()  # Reset the timer
+                if elapsed_time >= 60.0:  # Stop after one minute
+                    average_detections_per_second = total_detections / 60.0
+                    print(f"Average detections per second over one minute: {average_detections_per_second:.2f}")
+                    break
 
                 time.sleep(0.0001)  # Add a small delay for smoother updates
 
