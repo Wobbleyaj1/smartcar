@@ -46,7 +46,7 @@ if __name__ == "__main__":
         below_threshold = False
         while True:
             distance = sensor.get_distance()
-            if distance < 10:
+            if distance < 20:
                 if not below_threshold:
                     print("Stop")
                     below_threshold = True
