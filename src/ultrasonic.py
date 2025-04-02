@@ -45,7 +45,10 @@ if __name__ == "__main__":
     try:
         while True:
             distance = sensor.get_distance()
-            print(f"Distance: {distance} cm")
+            if distance < 5:
+                print("Stop")
+            else:
+                print(f"Distance: {distance} cm")
             time.sleep(.1)
     except KeyboardInterrupt:
         print("Measurement stopped by user")
