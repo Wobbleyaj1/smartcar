@@ -12,7 +12,14 @@ class ObjectTracker:
 
     def track_object(self):
         try:
+            # Initialize the pan-tilt mechanism
+            self.pan_tilt.initialize_to_middle()
+
+            # Start the camera
             print("Starting object tracking...")
+            detection_count = 0
+            start_time = time.time()  # Start the timer
+
             while True:
                 # Capture a frame and run object detection
                 frame_bgra = self.detector.picam.capture_array()
@@ -31,6 +38,7 @@ class ObjectTracker:
                         xyxy_tensor = detections[i].xyxy.cpu()
                         xyxy = xyxy_tensor.numpy().squeeze()
                         object_bbox = xyxy.astype(int)  # [xmin, ymin, xmax, ymax]
+                        detection_count += 1  # Increment detection count
                         break
 
                 if object_bbox is not None:
@@ -66,7 +74,14 @@ class ObjectTracker:
                             # Move up to align the bounding box center
                             self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_UP_CH, step_y)
 
-                time.sleep(0.1)  # Add a small delay to avoid overwhelming the system
+                # Log detections per second
+                elapsed_time = time.time() - start_time
+                if elapsed_time >= 1.0:  # Log every second
+                    print(f"Detections per second: {detection_count}")
+                    detection_count = 0  # Reset the count
+                    start_time = time.time()  # Reset the timer
+
+                time.sleep(0.02)  # Add a small delay for smoother updates
 
         except KeyboardInterrupt:
             print("\nStopping object tracking...")

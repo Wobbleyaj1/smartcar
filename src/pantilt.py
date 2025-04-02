@@ -169,9 +169,6 @@ class PanTiltController:
         self.set_servo_degree(self.SERVO_UP_CH, self.servo_up_degree)
         self.set_servo_degree(self.SERVO_DOWN_CH, self.servo_down_degree)
 
-        print(f"Moved to middle point: ServoUpDegree={self.servo_up_degree}, ServoDownDegree={self.servo_down_degree}")
-
-
 if __name__ == "__main__":
     controller = PanTiltController()
     controller.initialize_to_middle()  # Initialize and move to the middle
