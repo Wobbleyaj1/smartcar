@@ -46,7 +46,7 @@ if __name__ == "__main__":
         while True:
             distance = sensor.get_distance()
             print(f"Distance: {distance} cm")
-            time.sleep(1)
+            time.sleep(.1)
     except KeyboardInterrupt:
         print("Measurement stopped by user")
         sensor.cleanup()
