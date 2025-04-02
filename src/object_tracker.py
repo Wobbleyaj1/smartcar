@@ -81,7 +81,7 @@ class ObjectTracker:
                     detection_count = 0  # Reset the count
                     start_time = time.time()  # Reset the timer
 
-                time.sleep(0.002)  # Add a small delay for smoother updates
+                time.sleep(0.0001)  # Add a small delay for smoother updates
 
         except KeyboardInterrupt:
             print("\nStopping object tracking...")
