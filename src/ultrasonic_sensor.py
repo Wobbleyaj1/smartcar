@@ -53,3 +53,15 @@ class UltrasonicSensor:
         finally:
             GPIO.cleanup()
             print("Ultrasonic sensor loop stopped and GPIO cleaned up.")
+
+if __name__ == "__main__":
+    import threading
+
+    stop_event = threading.Event()
+    ultrasonic_sensor = UltrasonicSensor(stop_event)
+
+    try:
+        ultrasonic_sensor.run()
+    except KeyboardInterrupt:
+        stop_event.set()
+        print("Keyboard interrupt received. Stopping the ultrasonic sensor.")
