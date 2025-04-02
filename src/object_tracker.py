@@ -81,7 +81,7 @@ class ObjectTracker:
                     print(f"Average detections per second over one minute: {average_detections_per_second:.2f}")
                     break
 
-                time.sleep(0.01)  # Add a small delay for smoother updates
+                time.sleep(0.001)  # Add a small delay for smoother updates
 
         except KeyboardInterrupt:
             print("\nStopping object tracking...")

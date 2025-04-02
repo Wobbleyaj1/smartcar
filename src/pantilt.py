@@ -78,12 +78,14 @@ class PanTiltController:
             else:
                 self.servo_up_degree += step
             self.set_servo_degree(channel, self.servo_up_degree)
+            print(f"Servo UP Channel: Increased to {self.servo_up_degree} degrees")  # Log current degree
         elif channel == self.SERVO_DOWN_CH:
             if self.servo_down_degree >= self.SERVO_DOWN_MAX:
                 self.servo_down_degree = self.SERVO_DOWN_MAX
             else:
                 self.servo_down_degree += step
             self.set_servo_degree(channel, self.servo_down_degree)
+            print(f"Servo DOWN Channel: Increased to {self.servo_down_degree} degrees")  # Log current degree
         time.sleep(self.STEP_DELAY)
 
     def servo_degree_decrease(self, channel, step):
@@ -93,12 +95,14 @@ class PanTiltController:
             else:
                 self.servo_up_degree -= step
             self.set_servo_degree(channel, self.servo_up_degree)
+            print(f"Servo UP Channel: Decreased to {self.servo_up_degree} degrees")  # Log current degree
         elif channel == self.SERVO_DOWN_CH:
             if self.servo_down_degree <= self.SERVO_DOWN_MIN + step:
                 self.servo_down_degree = self.SERVO_DOWN_MIN
             else:
                 self.servo_down_degree -= step
             self.set_servo_degree(channel, self.servo_down_degree)
+            print(f"Servo DOWN Channel: Decreased to {self.servo_down_degree} degrees")  # Log current degree
         time.sleep(self.STEP_DELAY)
 
     def process_keyboard_event(self):
