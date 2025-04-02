@@ -41,7 +41,7 @@ class HCSR04:
 
 # Example usage:
 if __name__ == "__main__":
-    sensor = HCSR04(trigger_pin=23, echo_pin=24)
+    sensor = HCSR04(trigger_pin=24, echo_pin=23)
     try:
         while True:
             distance = sensor.get_distance()
