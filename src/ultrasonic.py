@@ -43,11 +43,16 @@ class HCSR04:
 if __name__ == "__main__":
     sensor = HCSR04(trigger_pin=24, echo_pin=23)
     try:
+        below_threshold = False  # Flag to track if distance is below 5 cm
         while True:
             distance = sensor.get_distance()
             if distance < 5:
-                print("Stop")
+                if not below_threshold:
+                    print("Stop")
+                    below_threshold = True
             else:
+                if below_threshold:
+                    below_threshold = False
                 print(f"Distance: {distance} cm")
             time.sleep(.1)
     except KeyboardInterrupt:
