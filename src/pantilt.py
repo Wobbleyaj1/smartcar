@@ -77,14 +77,12 @@ class PanTiltController:
                 self.servo_up_degree = self.SERVO_UP_MAX
             else:
                 self.servo_up_degree += step
-            print(f"Increasing ServoUpDegree to {self.servo_up_degree}")
             self.set_servo_degree(channel, self.servo_up_degree)
         elif channel == self.SERVO_DOWN_CH:
             if self.servo_down_degree >= self.SERVO_DOWN_MAX:
                 self.servo_down_degree = self.SERVO_DOWN_MAX
             else:
                 self.servo_down_degree += step
-            print(f"Increasing ServoDownDegree to {self.servo_down_degree}")
             self.set_servo_degree(channel, self.servo_down_degree)
         time.sleep(self.STEP_DELAY)
 
@@ -94,14 +92,12 @@ class PanTiltController:
                 self.servo_up_degree = self.SERVO_UP_MIN
             else:
                 self.servo_up_degree -= step
-            print(f"Decreasing ServoUpDegree to {self.servo_up_degree}")
             self.set_servo_degree(channel, self.servo_up_degree)
         elif channel == self.SERVO_DOWN_CH:
             if self.servo_down_degree <= self.SERVO_DOWN_MIN + step:
                 self.servo_down_degree = self.SERVO_DOWN_MIN
             else:
                 self.servo_down_degree -= step
-            print(f"Decreasing ServoDownDegree to {self.servo_down_degree}")
             self.set_servo_degree(channel, self.servo_down_degree)
         time.sleep(self.STEP_DELAY)
 
