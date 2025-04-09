@@ -1,5 +1,6 @@
 import RPi.GPIO as io
 import os
+import time
 
 io.setmode(io.BCM)
 
@@ -24,6 +25,21 @@ def counter_clockwise():
     io.output(in2_pin, True)
 
 clockwise()
+
+print("Testing clockwise rotation...")
+io.output(in1_pin, True)
+io.output(in2_pin, False)
+time.sleep(2)
+
+print("Testing counter-clockwise rotation...")
+io.output(in1_pin, False)
+io.output(in2_pin, True)
+time.sleep(2)
+
+print("Stopping motor...")
+io.output(in1_pin, False)
+io.output(in2_pin, False)
+io.cleanup()
 
 while True:
     cmd = input("Command, f/r 0..9, E.g. f5 :")
