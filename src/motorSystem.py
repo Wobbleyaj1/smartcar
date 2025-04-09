@@ -46,11 +46,19 @@ class MotorSystem:
 # Example test program
 if __name__ == "__main__":
     # Define GPIO pins for motor control
+    # Define GPIO pins for motor control
+    MOTOR_PINS = {
+        "EN1": 3, "IN1": 5, "IN2": 7,       # Motor 1
+        "EN2": 29, "IN3": 31, "IN4": 26,    # Motor 2
+        "EN3": 24, "IN5": 21, "IN6": 19,    # Motor 3
+        "EN4": 23, "IN7": 32, "IN8": 33     # Motor 4
+    }
+
     motor_pins = [
-        (3, 5, 7),      # Motor 1 (Front Left)
-        (29, 31, 26),   # Motor 2 (Rear Left)
-        (24, 21, 19),   # Motor 3 (Front Right)
-        (23, 32, 33)    # Motor 4 (Rear Right)
+        ("EN1", "IN1", "IN2"),      # Motor 1 (Front Left)
+        ("EN2", "IN3", "IN4"),      # Motor 2 (Rear Left)
+        ("EN3", "IN5", "IN6"),      # Motor 3 (Front Right)
+        ("EN4", "IN7", "IN8")       # Motor 4 (Rear Right)
     ]
 
     try:
