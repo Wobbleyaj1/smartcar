@@ -50,7 +50,7 @@ class MovementController:
             io.cleanup()  # Perform GPIO cleanup once
             self.cleaned_up = True
         else:
-           # print("Cleanup already performed.")
+            print("Cleanup already performed.")
 
 # Example usage
 if __name__ == "__main__":
