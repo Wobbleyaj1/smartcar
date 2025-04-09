@@ -9,21 +9,11 @@ in2_pin = 18
 io.setup(in1_pin, io.OUT)
 io.setup(in2_pin, io.OUT)
 
-def set(property, value):
-    try:
-        path = f"/sys/class/rpi-pwm/pwm0/{property}"
-        if not os.path.exists(path):
-            print(f"Path does not exist: {path}")
-            return
-        with open(path, 'w') as f:
-            f.write(value)
-    except Exception as e:
-        print(f"Error writing to: {property} value: {value}. Exception: {e}")
+pwm = io.PWM(in1_pin, 500)  # Set up PWM on in1_pin with 500Hz frequency
+pwm.start(0)  # Start PWM with 0% duty cycle
 
-set("delayed", "0")
-set("mode", "pwm")
-set("frequency", "500")
-set("active", "1")
+def set_duty_cycle(duty):
+    pwm.ChangeDutyCycle(duty)
 
 def clockwise():
     io.output(in1_pin, True)    
@@ -50,6 +40,6 @@ while True:
         continue
     try:
         speed = int(cmd[1]) * 11
-        set("duty", str(speed))
+        set_duty_cycle(speed)
     except ValueError:
         print("Invalid speed. Use a number between 0 and 9.")
