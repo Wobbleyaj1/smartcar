@@ -58,6 +58,7 @@ if __name__ == "__main__":
         movement.turn_right(50)  # Turn right at 50% speed
         time.sleep(2)
         movement.stop()  # Stop all motors
-        movement.cleanup()  # Ensure cleanup is called
     except KeyboardInterrupt:
         print("\nExiting program.")
+    finally:
+        movement.cleanup()
