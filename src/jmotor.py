@@ -20,7 +20,7 @@ class MotorController:
 
     def set_motor_speed(self, direction, duty):
         """Set the motor speed and direction."""
-        print(f"Setting motor to {'clockwise' if direction == 'f' else 'counter-clockwise'} at {duty}% duty cycle")
+        #print(f"Setting motor to {'clockwise' if direction == 'f' else 'counter-clockwise'} at {duty}% duty cycle")
         if direction == "f":
             self.pwm_in1.ChangeDutyCycle(duty)
             self.pwm_in2.ChangeDutyCycle(0)
@@ -30,13 +30,13 @@ class MotorController:
 
     def stop_motor(self):
         """Stop the motor by setting both PWM duty cycles to 0."""
-        print("Stopping the motor.")
+        #print("Stopping the motor.")
         self.pwm_in1.ChangeDutyCycle(0)
         self.pwm_in2.ChangeDutyCycle(0)
 
     def cleanup(self):
         """Stop PWM and clean up GPIO."""
-        print("Cleaning up GPIO and stopping PWM.")
+        #print("Cleaning up GPIO and stopping PWM.")
         self.pwm_in1.stop()
         self.pwm_in2.stop()
         del self.pwm_in1
