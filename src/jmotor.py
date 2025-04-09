@@ -40,6 +40,8 @@ class MotorController:
         print("Cleaning up GPIO and stopping PWM.")
         self.pwm_in1.stop()
         self.pwm_in2.stop()
+        del self.pwm_in1
+        del self.pwm_in2
         io.cleanup()
 
 def main():
