@@ -65,5 +65,5 @@ if __name__ == "__main__":
         movement.stop()  # Stop all motors
     except KeyboardInterrupt:
         print("\nExiting program.")
-    finally:
-        movement.cleanup()  # Ensure cleanup is called
+    # finally:
+    #     movement.cleanup()  # Ensure cleanup is called
