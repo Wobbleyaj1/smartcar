@@ -1,4 +1,5 @@
 from jmotor import MotorController
+import RPi.GPIO as io
 import time
 
 class MovementController:
@@ -41,11 +42,12 @@ class MovementController:
         self.motor2.stop_motor()
 
     def cleanup(self):
-        """Clean up both motors."""
+        """Clean up both motors and GPIO."""
         if not self.cleaned_up:  # Ensure cleanup is only called once
-            print("Cleaning up all motors.")
-            self.motor1.cleanup()
-            self.motor2.cleanup()
+            print("Cleaning up all motors and GPIO.")
+            self.motor1.stop_pwm()
+            self.motor2.stop_pwm()
+            io.cleanup()  # Perform GPIO cleanup once
             self.cleaned_up = True
         else:
             print("Cleanup already performed.")
