@@ -44,7 +44,7 @@ class MovementController:
     def cleanup(self):
         """Clean up both motors and GPIO."""
         if not self.cleaned_up:  # Ensure cleanup is only called once
-            #print("Cleaning up all motors and GPIO.")
+            print("Cleaning up all motors and GPIO.")
             self.motor1.stop_pwm()
             self.motor2.stop_pwm()
             io.cleanup()  # Perform GPIO cleanup once
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     movement = MovementController()
     try:
         movement.move_forward(100)  # Move forward at 100% speed
-        time.sleep(5)  # Move for 2 seconds
+        time.sleep(2)  # Move for 2 seconds
         # movement.turn_left(100)  # Turn left at 100% speed
         # time.sleep(.5)
         # movement.move_backward(100)  # Move backward at 100% speed
