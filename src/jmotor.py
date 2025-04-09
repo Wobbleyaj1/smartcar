@@ -29,8 +29,15 @@ class MotorController:
             self.pwm_in1.ChangeDutyCycle(0)
             self.pwm_in2.ChangeDutyCycle(duty)
 
+    def stop_motor(self):
+        """Stop the motor by setting both PWM duty cycles to 0."""
+        print("Stopping the motor.")
+        self.pwm_in1.ChangeDutyCycle(0)
+        self.pwm_in2.ChangeDutyCycle(0)
+
     def cleanup(self):
         """Stop PWM and clean up GPIO."""
+        print("Cleaning up GPIO and stopping PWM.")
         self.pwm_in1.stop()
         self.pwm_in2.stop()
         io.cleanup()
@@ -45,9 +52,15 @@ def main():
 
     try:
         while True:
-            cmd = input("Command, f/r 0..9, E.g. f5 :")  # Get user input
-            if len(cmd) < 2:
-                print("Invalid command. Use format f5 or r3.")
+            cmd = input("Command, f/r 0..9 to move, 's' to stop, 'q' to quit: ")  # Get user input
+            if cmd == "q":
+                print("Quitting the program.")
+                break
+            elif cmd == "s":
+                motor.stop_motor()
+                continue
+            elif len(cmd) < 2:
+                print("Invalid command. Use format f5, r3, 's' to stop, or 'q' to quit.")
                 continue
 
             direction = cmd[0]
@@ -56,11 +69,12 @@ def main():
                 continue
 
             # Set speed based on the second character of the command
-            speed = int(cmd[1]) * 11  # Convert 0-9 to 0%-99% duty cycle
-            motor.set_motor_speed(direction, speed)
+            try:
+                speed = int(cmd[1]) * 11  # Convert 0-9 to 0%-99% duty cycle
+                motor.set_motor_speed(direction, speed)
+            except ValueError:
+                print("Invalid speed. Use a number between 0 and 9.")
 
-    except ValueError:
-        print("Invalid speed. Use a number between 0 and 9.")
     except KeyboardInterrupt:
         print("\nExiting program.")
     finally:
