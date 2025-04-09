@@ -56,13 +56,13 @@ class MovementController:
 if __name__ == "__main__":
     movement = MovementController()
     try:
-        movement.move_forward(50)  # Move forward at 50% speed
+        movement.move_forward(100)  # Move forward at 100% speed
         time.sleep(.5)  # Move for 2 seconds
-        movement.turn_left(50)  # Turn left at 50% speed
+        movement.turn_left(100)  # Turn left at 100% speed
         time.sleep(.5)
-        movement.move_backward(50)  # Move backward at 50% speed
+        movement.move_backward(100)  # Move backward at 100% speed
         time.sleep(.5)
-        movement.turn_right(50)  # Turn right at 50% speed
+        movement.turn_right(100)  # Turn right at 100% speed
         time.sleep(.5)
         movement.stop()  # Stop all motors
     except KeyboardInterrupt:
