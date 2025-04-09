@@ -43,6 +43,13 @@ class MotorController:
         del self.pwm_in2
         io.cleanup()
 
+    def stop_pwm(self):
+        """Stop PWM for this motor."""
+        self.pwm_in1.stop()
+        self.pwm_in2.stop()
+        del self.pwm_in1
+        del self.pwm_in2
+
 def main():
     # Define motor pins
     in1_pin = 23  # GPIO 23 corresponds to physical pin 16
