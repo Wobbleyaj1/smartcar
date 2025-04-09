@@ -5,10 +5,10 @@ import time
 class MovementController:
     def __init__(self):
         """Initialize the movement controller with two motors."""
-        # Motor 1 (left motor) uses GPIO 24 and 23
-        self.motor1 = MotorController(in1_pin=24, in2_pin=23)
-        # Motor 2 (right motor) uses GPIO 27 and 22
-        self.motor2 = MotorController(in1_pin=27, in2_pin=22)
+        # Motor 1 (left motor) uses GPIO 24, 23, and enable pin 25
+        self.motor1 = MotorController(in1_pin=24, in2_pin=23, en1_pin=25)
+        # Motor 2 (right motor) uses GPIO 27, 22, and enable pin 26
+        self.motor2 = MotorController(in1_pin=27, in2_pin=22, en1_pin=26)
         self.cleaned_up = False  # Track if cleanup has been called
 
     def move_forward(self, speed):
@@ -45,8 +45,8 @@ class MovementController:
         """Clean up both motors and GPIO."""
         if not self.cleaned_up:  # Ensure cleanup is only called once
             print("Cleaning up all motors and GPIO.")
-            self.motor1.stop_pwm()
-            self.motor2.stop_pwm()
+            self.motor1.cleanup()
+            self.motor2.cleanup()
             io.cleanup()  # Perform GPIO cleanup once
             self.cleaned_up = True
         else:
