@@ -42,10 +42,10 @@ while True:
         direction = cmd[0]
         if direction == "f":
             print("Setting motor to clockwise")
-            clockwise()
+            counter_clockwise()
         elif direction == "r":
             print("Setting motor to counter-clockwise")
-            counter_clockwise()
+            clockwise()
         else:
             print("Invalid direction. Use 'f' for forward or 'r' for reverse.")
             continue
