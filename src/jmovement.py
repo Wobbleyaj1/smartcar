@@ -8,6 +8,7 @@ class MovementController:
         self.motor1 = MotorController(in1_pin=24, in2_pin=23)
         # Motor 2 (right motor) uses GPIO 27 and 22
         self.motor2 = MotorController(in1_pin=27, in2_pin=22)
+        self.cleaned_up = False  # Track if cleanup has been called
 
     def move_forward(self, speed):
         """Move both motors forward at the specified speed."""
@@ -41,9 +42,13 @@ class MovementController:
 
     def cleanup(self):
         """Clean up both motors."""
-        print("Cleaning up all motors.")
-        self.motor1.cleanup()
-        self.motor2.cleanup()
+        if not self.cleaned_up:  # Ensure cleanup is only called once
+            print("Cleaning up all motors.")
+            self.motor1.cleanup()
+            self.motor2.cleanup()
+            self.cleaned_up = True
+        else:
+            print("Cleanup already performed.")
 
 # Example usage
 if __name__ == "__main__":
@@ -61,4 +66,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\nExiting program.")
     finally:
-        movement.cleanup()
+        movement.cleanup()  # Ensure cleanup is called
