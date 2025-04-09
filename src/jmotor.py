@@ -22,11 +22,11 @@ class MotorController:
         """Set the motor speed and direction."""
         #print(f"Setting motor to {'clockwise' if direction == 'f' else 'counter-clockwise'} at {duty}% duty cycle")
         if direction == "f":
-            self.pwm_in1.ChangeDutyCycle(duty)
-            self.pwm_in2.ChangeDutyCycle(0)
-        elif direction == "r":
             self.pwm_in1.ChangeDutyCycle(0)
             self.pwm_in2.ChangeDutyCycle(duty)
+        elif direction == "r":
+            self.pwm_in1.ChangeDutyCycle(duty)
+            self.pwm_in2.ChangeDutyCycle(0)
 
     def stop_motor(self):
         """Stop the motor by setting both PWM duty cycles to 0."""
