@@ -4,7 +4,7 @@ import time
 
 io.setmode(io.BCM)
 
-in1_pin = 12
+in1_pin = 16
 in2_pin = 18
 
 io.setup(in1_pin, io.OUT)
