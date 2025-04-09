@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-import smartcar.src.motor as Motor
+import motor as Motor
 from time import sleep
 
 class MotorSystem:
