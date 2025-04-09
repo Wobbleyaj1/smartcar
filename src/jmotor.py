@@ -1,5 +1,4 @@
 import RPi.GPIO as io
-import time
 
 class MotorController:
     def __init__(self, in1_pin, in2_pin, frequency=500):
