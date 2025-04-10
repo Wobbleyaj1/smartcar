@@ -80,6 +80,7 @@ if __name__ == "__main__":
     """
     movement = MovementController()
     try:
+        time.sleep(1)
         movement.move_forward(100)
         time.sleep(1)
         movement.turn_left(100)
