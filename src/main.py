@@ -25,11 +25,14 @@ class SmartCarSystem:
             time.sleep(0.1)
 
     def movement_thread(self):
+        was_stopped = False
         while self.running:
             if self.distance is not None:
                 if self.distance < 20:
-                    print("Obstacle detected! Stopping motors.")
-                    self.movement_controller.stop()
+                    if not was_stopped:
+                        print("Obstacle detected! Stopping motors.")
+                        self.movement_controller.stop()
+                        was_stopped = True
                 else:
                     if self.frame_centered:
                         print("Object centered. Moving forward.")
