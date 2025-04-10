@@ -1,31 +1,58 @@
-import threading
-import signal
-from servo_control import ServoControl
-from ultrasonic_sensor import UltrasonicSensor
+from ultrasonic_sensor import HCSR04
+from object_tracker import ObjectTracker
+from jmovement import MovementController
+import time
 
 def main():
-    stop_event = threading.Event()
+    # Initialize components
+    ultrasonic_sensor = HCSR04(trigger_pin=24, echo_pin=23)
+    movement_controller = MovementController()
+    object_tracker = ObjectTracker(model_path="yolov5nu_ncnn_model", object="person")
 
-    servo_control = ServoControl(stop_event)
-    ultrasonic_sensor = UltrasonicSensor(stop_event)
+    try:
+        print("Smart car system initialized. Starting main loop...")
+        while True:
+            # Check distance using the ultrasonic sensor
+            distance = ultrasonic_sensor.get_distance()
+            print(f"Distance: {distance} cm")
 
-    servo_thread = threading.Thread(target=servo_control.run)
-    ultrasonic_thread = threading.Thread(target=ultrasonic_sensor.run)
+            if distance < 20:
+                print("Obstacle detected! Stopping motors.")
+                movement_controller.stop()
+            else:
+                # Track object and adjust movement
+                print("Tracking object...")
+                frame_centered = object_tracker.track_object()
 
-    def signal_handler(sig, frame):
-        print("KeyboardInterrupt received, stopping threads...")
-        stop_event.set()
-        servo_thread.join()
-        ultrasonic_thread.join()
-        print("Threads stopped, exiting program.")
+                if frame_centered:
+                    print("Object centered. Moving forward.")
+                    movement_controller.move_forward(50)  # Move forward at 50% speed
+                else:
+                    print("Object not centered. Adjusting position.")
+                    
+                    # Get the current pan-tilt angles
+                    pan_angle = object_tracker.pan_tilt.get_pan_angle()
 
-    signal.signal(signal.SIGINT, signal_handler)
+                    # Adjust robot's direction based on pan angle
+                    if pan_angle > 10:  # Object is to the right
+                        print("Object is to the right. Turning right.")
+                        movement_controller.turn_right(30)  # Turn right at 30% speed
+                    elif pan_angle < -10:  # Object is to the left
+                        print("Object is to the left. Turning left.")
+                        movement_controller.turn_left(30)  # Turn left at 30% speed
+                    else:
+                        print("Object is roughly centered. Stopping to adjust pan-tilt.")
+                        movement_controller.stop()
 
-    servo_thread.start()
-    ultrasonic_thread.start()
+            time.sleep(0.1)  # Small delay to avoid overwhelming the system
 
-    servo_thread.join()
-    ultrasonic_thread.join()
+    except KeyboardInterrupt:
+        print("\nExiting program.")
+    finally:
+        # Cleanup all components
+        ultrasonic_sensor.cleanup()
+        movement_controller.cleanup()
+        print("System cleanup complete.")
 
 if __name__ == "__main__":
     main()

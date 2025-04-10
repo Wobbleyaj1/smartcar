@@ -162,7 +162,7 @@ class PanTiltController:
         self.pca9685_set_pwm_freq(60)
 
         # Calculate middle points
-        self.servo_up_degree = (self.SERVO_UP_MAX + self.SERVO_UP_MIN) // 2
+        self.servo_up_degree = (self.SERVO_UP_MAX + self.SERVO_UP_MIN) // 2 + 20  # Adjusted for better visibility
         self.servo_down_degree = (self.SERVO_DOWN_MAX + self.SERVO_DOWN_MIN) // 2
 
         # Move servos to the middle point
