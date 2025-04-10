@@ -2,6 +2,7 @@ from jmotor import MotorController
 import RPi.GPIO as io
 import time
 
+
 class MovementController:
     def __init__(self):
         """
@@ -9,6 +10,7 @@ class MovementController:
         Motor 1 (left motor) and Motor 2 (right motor) are controlled independently.
         """
         io.cleanup()
+        io.setup(self.en1_pin, io.OUT)
         self.motor1 = MotorController(in1_pin=24, in2_pin=23, en1_pin=25)
         self.motor2 = MotorController(in1_pin=27, in2_pin=22, en1_pin=26)
 
