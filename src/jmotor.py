@@ -49,6 +49,8 @@ class MotorController:
         self.pwm_in2.stop()
         del self.pwm_in1
         del self.pwm_in2
+        io.cleanup()
+
 
 def main():
     # Define motor pins
