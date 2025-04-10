@@ -26,14 +26,14 @@ class MovementController:
     def turn_left(self, speed):
         """Turn left by stopping the left motor and running the right motor forward."""
         print(f"Turning left at {speed}% speed.")
-        self.motor1.set_motor_speed(direction="r", duty=speed)  # Stop left motor
-        self.motor2.set_motor_speed(direction="f", duty=speed)  # Run right motor forward
+        self.motor1.set_motor_speed(direction="f", duty=speed)  # Stop left motor
+        self.motor2.set_motor_speed(direction="r", duty=speed)  # Run right motor forward
 
     def turn_right(self, speed):
         """Turn right by stopping the right motor and running the left motor forward."""
         print(f"Turning right at {speed}% speed.")
-        self.motor1.set_motor_speed(direction="f", duty=speed)  # Run left motor forward
-        self.motor2.set_motor_speed(direction="r", duty=speed)  # Stop right motor
+        self.motor1.set_motor_speed(direction="r", duty=speed)  # Run left motor forward
+        self.motor2.set_motor_speed(direction="f", duty=speed)  # Stop right motor
 
     def stop(self):
         """Stop both motors."""
