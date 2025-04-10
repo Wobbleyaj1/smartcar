@@ -50,6 +50,10 @@ class MotorController:
         """
         self.pwm_in1.ChangeDutyCycle(0)
         self.pwm_in2.ChangeDutyCycle(0)
+
+    def cleanup(self):
+        """Stop PWM, disable the motor driver, and clean up GPIO."""
+        self.stop_motor()
         
 if __name__ == "__main__":
     """
