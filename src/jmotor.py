@@ -8,20 +8,20 @@ class MotorController:
         Args:
             in1_pin (int): GPIO pin for motor input 1.
             in2_pin (int): GPIO pin for motor input 2.
-            en1_pin (int, optional): GPIO pin for motor enable. Defaults to None.
+            en_pin (int, optional): GPIO pin for motor enable. Defaults to None.
             frequency (int): PWM frequency in Hz. Defaults to 500.
         """
         self.in1_pin = in1_pin
         self.in2_pin = in2_pin
-        self.en1_pin = en_pin
+        self.en_pin = en_pin
         self.frequency = frequency
 
         io.setmode(io.BCM)
         io.setup(self.in1_pin, io.OUT)
         io.setup(self.in2_pin, io.OUT)
-        if self.en1_pin is not None:
-            io.setup(self.en1_pin, io.OUT)
-            io.output(self.en1_pin, io.HIGH)
+        if self.en_pin is not None:
+            io.setup(self.en_pin, io.OUT)
+            io.output(self.en_pin, io.HIGH)
 
         self.pwm_in1 = io.PWM(self.in1_pin, self.frequency)
         self.pwm_in2 = io.PWM(self.in2_pin, self.frequency)
