@@ -3,6 +3,7 @@ import RPi.GPIO as io
 import time
 
 io.setwarnings(False)
+io.cleanup()
 
 class MovementController:
     def __init__(self):
