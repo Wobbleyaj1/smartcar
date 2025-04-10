@@ -77,13 +77,13 @@ if __name__ == "__main__":
     """
     movement = MovementController()
     try:
-        movement.move_forward(50)
+        movement.move_forward(100)
         time.sleep(1)
-        movement.turn_left(50)
+        movement.turn_left(100)
         time.sleep(1)
-        movement.move_backward(50)
+        movement.move_backward(100)
         time.sleep(1)
-        movement.turn_right(50)
+        movement.turn_right(100)
         time.sleep(1)
         movement.stop()
     except KeyboardInterrupt:
