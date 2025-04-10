@@ -48,11 +48,6 @@ class MotorController:
         """Stop PWM, disable the motor driver, and clean up GPIO."""
         print("Cleaning up GPIO and stopping PWM.")
         self.stop_motor()  # Ensure the motor is stopped
-        if self.en1_pin is not None:
-            io.output(self.en1_pin, io.LOW)  # Explicitly set en1_pin to LOW
-            io.setup(self.en1_pin, io.IN)  # Optionally set en1_pin to input mode to avoid cleanup
-        self.pwm_in1.stop()
-        self.pwm_in2.stop()
         del self.pwm_in1
         del self.pwm_in2
         io.cleanup()  # Clean up GPIO
