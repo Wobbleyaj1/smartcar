@@ -51,17 +51,17 @@ class SmartCarSystem:
                                 print("Object is to the right. Turning right.")
                                 self.movement_controller.stop()
                                 self.movement_controller.turn_right(100)  # Turn right at 100% speed  
-                                time.sleep(0.5)  # Pause briefly to reset
+                                time.sleep(0.1)  # Pause briefly to reset
                             elif pan_angle < 0:  # Object is to the left
                                 print("Object is to the left. Turning left.")
                                 self.movement_controller.stop()
                                 self.movement_controller.turn_left(100)  # Turn left at 100% speed
-                                time.sleep(0.5)  # Pause briefly to reset
+                                time.sleep(0.1)  # Pause briefly to reset
                             else:
                                 print("Object centered. Moving forward.")
                                 self.movement_controller.stop()
                                 self.movement_controller.move_forward(100)  # Move forward at 60% speed
-                                time.sleep(0.5)  # Pause briefly to reset
+                                time.sleep(0.1)  # Pause briefly to reset
                                 
                 time.sleep(0.1)
         finally:
