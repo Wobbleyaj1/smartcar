@@ -48,13 +48,13 @@ class SmartCarSystem:
                             print(f"Pan angle: {pan_angle} degrees")
                             if pan_angle > 15:  # Object is to the right
                                 print("Object is to the right. Turning right.")
-                                self.movement_controller.turn_right(70)  # Turn right at 70% speed                                
+                                self.movement_controller.turn_right(100)  # Turn right at 100% speed                                
                             elif pan_angle < 0:  # Object is to the left
                                 print("Object is to the left. Turning left.")
-                                self.movement_controller.turn_left(70)  # Turn left at 70% speed
+                                self.movement_controller.turn_left(100)  # Turn left at 100% speed
                             else:
                                 print("Object centered. Moving forward.")
-                                self.movement_controller.move_forward(60)  # Move forward at 60% speed
+                                self.movement_controller.move_forward(100)  # Move forward at 60% speed
                 time.sleep(0.1)
         finally:
             print("Movement thread exiting...")
