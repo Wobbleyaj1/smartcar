@@ -14,47 +14,55 @@ class SmartCarSystem:
         self.running = True
 
     def ultrasonic_thread(self):
-        while self.running:
-
-            self.distance = self.ultrasonic_sensor.get_distance()
-            if self.distance > 20:
-                print(f"Distance: {self.distance} cm")
-            time.sleep(0.1)
+        try:
+            while self.running:
+                self.distance = self.ultrasonic_sensor.get_distance()
+                if self.distance > 20:
+                    print(f"Distance: {self.distance} cm")
+                time.sleep(0.1)
+        finally:
+            print("Ultrasonic thread exiting...")
 
     def object_tracking_thread(self):
-        while self.running:
-            self.frame_centered = self.object_tracker.track_object()
-            time.sleep(0.1)
+        try:
+            while self.running:
+                self.frame_centered = self.object_tracker.track_object()
+                time.sleep(0.1)
+        finally:
+            print("Object tracking thread exiting...")
 
     def movement_thread(self):
         was_stopped = False
-        while self.running:
-            if self.distance is not None:
-                if self.distance < 20:
-                    if not was_stopped:
-                        print("Obstacle detected! Stopping motors.")
-                        self.movement_controller.stop()
-                        was_stopped = True
-                else:
-                    if self.frame_centered:
-                        print("Object centered. Moving forward.")
-                        self.movement_controller.move_forward(50)  # Move forward at 50% speed
-                        was_stopped = False
+        try:
+            while self.running:
+                if self.distance is not None:
+                    if self.distance < 20:
+                        if not was_stopped:
+                            print("Obstacle detected! Stopping motors.")
+                            self.movement_controller.stop()
+                            was_stopped = True
                     else:
-                        print("Object not centered. Adjusting position.")
-                        pan_angle = self.object_tracker.pan_tilt.get_pan_angle()
-                        if pan_angle > 10:  # Object is to the right
-                            print("Object is to the right. Turning right.")
-                            self.movement_controller.turn_right(30)  # Turn right at 30% speed
-                        elif pan_angle < -10:  # Object is to the left
-                            print("Object is to the left. Turning left.")
-                            self.movement_controller.turn_left(30)  # Turn left at 30% speed
+                        if self.frame_centered:
+                            print("Object centered. Moving forward.")
+                            self.movement_controller.move_forward(50)  # Move forward at 50% speed
+                            was_stopped = False
                         else:
-                            if not was_stopped:
-                                print("Object is roughly centered. Stopping to adjust pan-tilt.")
-                                self.movement_controller.stop()
-                                was_stopped = False
-            time.sleep(0.1)
+                            print("Object not centered. Adjusting position.")
+                            pan_angle = self.object_tracker.pan_tilt.get_pan_angle()
+                            if pan_angle > 10:  # Object is to the right
+                                print("Object is to the right. Turning right.")
+                                self.movement_controller.turn_right(30)  # Turn right at 30% speed
+                            elif pan_angle < -10:  # Object is to the left
+                                print("Object is to the left. Turning left.")
+                                self.movement_controller.turn_left(30)  # Turn left at 30% speed
+                            else:
+                                if not was_stopped:
+                                    print("Object is roughly centered. Stopping to adjust pan-tilt.")
+                                    self.movement_controller.stop()
+                                    was_stopped = False
+                time.sleep(0.1)
+        finally:
+            print("Movement thread exiting...")
 
     def cleanup(self):
         print("Cleaning up resources...")
