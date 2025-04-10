@@ -15,6 +15,7 @@ class ObjectTracker:
             confidence_threshold (float): Minimum confidence for object detection.
         """
         self.pan_tilt = PanTiltController()
+        self.pan_tilt.initialize_to_middle()
         self.detector = YOLODetector(model_path, resolution, confidence_threshold)
         self.object_class = object
         self.frame_width, self.frame_height = resolution
