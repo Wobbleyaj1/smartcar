@@ -16,7 +16,7 @@ class SmartCarSystem:
         try:
             while self.running:
                 self.distance = self.ultrasonic_sensor.get_distance()
-                if self.distance > 20:
+                if self.distance > 10:
                     print(f"Distance: {self.distance} cm")
                 time.sleep(0.1)
         finally:
@@ -35,7 +35,7 @@ class SmartCarSystem:
         try:
             while self.running:
                 if self.distance is not None:
-                    if self.distance < 20:
+                    if self.distance < 10:
                         if not was_stopped:
                             print("Obstacle detected! Stopping motors.")
                             was_stopped = True
