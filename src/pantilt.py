@@ -89,14 +89,13 @@ class PanTiltController:
                 self.servo_tilt_degree = self.SERVO_TILT_MAX
             else:
                 self.servo_tilt_degree += step
-            #print(f"Increasing ServoUpDegree to {self.servo_tilt_degree}")
             self.set_servo_degree(channel, self.servo_tilt_degree)
         elif channel == self.SERVO_PAN_CH:
             if self.servo_pan_degree >= self.SERVO_PAN_MAX:
                 self.servo_pan_degree = self.SERVO_PAN_MAX
             else:
                 self.servo_pan_degree += step
-            #print(f"Increasing ServoDownDegree to {self.servo_pan_degree}")
+                self.pan_angle += step  # Update pan_angle
             self.set_servo_degree(channel, self.servo_pan_degree)
         time.sleep(self.STEP_DELAY)
 
@@ -107,14 +106,13 @@ class PanTiltController:
                 self.servo_tilt_degree = self.SERVO_TILT_MIN
             else:
                 self.servo_tilt_degree -= step
-            #print(f"Decreasing ServoUpDegree to {self.servo_tilt_degree}")
             self.set_servo_degree(channel, self.servo_tilt_degree)
         elif channel == self.SERVO_PAN_CH:
             if self.servo_pan_degree <= self.SERVO_PAN_MIN + step:
                 self.servo_pan_degree = self.SERVO_PAN_MIN
             else:
                 self.servo_pan_degree -= step
-            #print(f"Decreasing ServoDownDegree to {self.servo_pan_degree}")
+                self.pan_angle -= step  # Update pan_angle
             self.set_servo_degree(channel, self.servo_pan_degree)
         time.sleep(self.STEP_DELAY)
 
