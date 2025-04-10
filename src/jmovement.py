@@ -44,7 +44,7 @@ class MovementController:
         """
         #print(f"Turning left at {speed}% speed.")
         self.motor1.set_motor_speed(direction="f", duty=speed)
-        self.motor2.set_motor_speed(direction="r", duty=speed)
+        # self.motor2.set_motor_speed(direction="r", duty=speed)
 
     def turn_right(self, speed):
         """
@@ -54,7 +54,7 @@ class MovementController:
             speed (int): Speed as a percentage (0-100).
         """
         #print(f"Turning right at {speed}% speed.")
-        self.motor1.set_motor_speed(direction="r", duty=speed)
+        # self.motor1.set_motor_speed(direction="r", duty=speed)
         self.motor2.set_motor_speed(direction="f", duty=speed)
 
     def stop(self):
