@@ -5,14 +5,26 @@ import cv2
 
 class ObjectTracker:
     def __init__(self, model_path, object="person", resolution=(640, 360), confidence_threshold=0.6):
+        """
+        Initialize the object tracker with a pan-tilt controller and YOLO detector.
+
+        Args:
+            model_path (str): Path to the YOLO model.
+            object (str): Object class to track (e.g., "person").
+            resolution (tuple): Resolution of the camera feed (width, height).
+            confidence_threshold (float): Minimum confidence for object detection.
+        """
         self.pan_tilt = PanTiltController()
         self.detector = YOLODetector(model_path, resolution, confidence_threshold)
         self.object_class = object
         self.frame_width, self.frame_height = resolution
 
     def track_object(self):
+        """
+        Continuously track the specified object using the YOLO detector and pan-tilt controller.
+        """
         try:
-            print("Starting object tracking...")
+            #print("Starting object tracking...")
             while True:
                 # Capture a frame and run object detection
                 frame_bgra = self.detector.picam.capture_array()
@@ -53,18 +65,18 @@ class ObjectTracker:
                     if abs(offset_x) > 10:  # Threshold to avoid jitter
                         if offset_x > 0:
                             # Move right to align the bounding box center
-                            self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_DOWN_CH, step_x)
+                            self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_PAN_CH, step_x)
                         else:
                             # Move left to align the bounding box center
-                            self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_DOWN_CH, step_x)
+                            self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_PAN_CH, step_x)
 
                     if abs(offset_y) > 20:  # Threshold to avoid jitter
                         if offset_y > 0:
                             # Move down to align the bounding box center
-                            self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_UP_CH, step_y)
+                            self.pan_tilt.servo_degree_increase(self.pan_tilt.SERVO_TILT_CH, step_y)
                         else:
                             # Move up to align the bounding box center
-                            self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_UP_CH, step_y)
+                            self.pan_tilt.servo_degree_decrease(self.pan_tilt.SERVO_TILT_CH, step_y)
 
                 time.sleep(0.1)  # Add a small delay to avoid overwhelming the system
 
@@ -75,5 +87,8 @@ class ObjectTracker:
 
 # Example usage
 if __name__ == "__main__":
+    """
+    Example main function to demonstrate object tracking.
+    """
     tracker = ObjectTracker(model_path="yolov5nu_ncnn_model", object="person")
     tracker.track_object()
