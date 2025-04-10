@@ -3,7 +3,6 @@ import RPi.GPIO as io
 import time
 
 io.setwarnings(False)
-io.cleanup()
 
 class MovementController:
     def __init__(self):
@@ -93,4 +92,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\nExiting program.")
     finally:
-        movement.cleanup()
+        movement.cleanup()    
