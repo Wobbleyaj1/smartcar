@@ -5,7 +5,7 @@ import time
 
 def main():
     # Initialize components
-    ultrasonic_sensor = HCSR04(trigger_pin=24, echo_pin=23)
+    ultrasonic_sensor = HCSR04(trigger_pin=17, echo_pin=18)
     movement_controller = MovementController()
     object_tracker = ObjectTracker(model_path="yolov5nu_ncnn_model", object="person")
 
