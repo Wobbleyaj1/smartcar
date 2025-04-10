@@ -24,7 +24,7 @@ class ObjectTracker:
         Continuously track the specified object using the YOLO detector and pan-tilt controller.
         """
         try:
-            #print("Starting object tracking...")
+            print("Starting object tracking...")
             while True:
                 # Capture a frame and run object detection
                 frame_bgra = self.detector.picam.capture_array()
