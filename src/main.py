@@ -57,8 +57,12 @@ class SmartCarSystem:
             time.sleep(0.1)
 
     def cleanup(self):
-        self.ultrasonic_sensor.cleanup()
-        self.movement_controller.cleanup()
+        print("Cleaning up resources...")
+        try:
+            self.ultrasonic_sensor.cleanup()
+            self.movement_controller.cleanup()
+        except Exception as e:
+            print(f"Error during cleanup: {e}")
         print("System cleanup complete.")
 
 def main():
