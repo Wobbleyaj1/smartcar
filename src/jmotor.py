@@ -87,5 +87,3 @@ if __name__ == "__main__":
         print("\nExiting program.")
     finally:
         motor.stop_motor()
-
-io.cleanup()

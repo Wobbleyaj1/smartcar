@@ -93,4 +93,7 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\nExiting program.")
     finally:
-        movement.cleanup()    
+        movement.cleanup()
+
+    
+    io.cleanup()
