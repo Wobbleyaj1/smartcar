@@ -52,7 +52,7 @@ class HCSR04:
         """
         Clean up GPIO resources when the sensor is no longer needed.
         """
-        GPIO.cleanup()
+        #GPIO.cleanup()
 
 if __name__ == "__main__":
     """
