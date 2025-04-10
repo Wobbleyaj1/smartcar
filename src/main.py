@@ -83,9 +83,9 @@ def main():
     except KeyboardInterrupt:
         print("\nExiting program.")
         smart_car.running = False
-        ultrasonic_thread.join()
-        tracking_thread.join()
-        movement_thread.join()
+        ultrasonic_thread.join(timeout=1)
+        tracking_thread.join(timeout=1)
+        movement_thread.join(timeout=1)
     finally:
         smart_car.cleanup()
 
