@@ -95,7 +95,7 @@ class PanTiltController:
                 self.servo_pan_degree = self.SERVO_PAN_MAX
             else:
                 self.servo_pan_degree += step
-                self.pan_angle += step  # Update pan_angle
+                self.pan_angle += step 
             self.set_servo_degree(channel, self.servo_pan_degree)
         time.sleep(self.STEP_DELAY)
 
@@ -112,7 +112,7 @@ class PanTiltController:
                 self.servo_pan_degree = self.SERVO_PAN_MIN
             else:
                 self.servo_pan_degree -= step
-                self.pan_angle -= step  # Update pan_angle
+                self.pan_angle -= step
             self.set_servo_degree(channel, self.servo_pan_degree)
         time.sleep(self.STEP_DELAY)
 
