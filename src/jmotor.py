@@ -38,16 +38,10 @@ class MotorController:
         self.pwm_in1.ChangeDutyCycle(0)
         self.pwm_in2.ChangeDutyCycle(0)
 
-    def disable_motor(self):
-        """Disable the motor driver by setting the enable pin to LOW."""
-        if self.en1_pin is not None:
-            print("Disabling motor driver.")
-            io.output(self.en1_pin, io.LOW)
-
     def cleanup(self):
         """Stop PWM, disable the motor driver, and clean up GPIO."""
         self.stop_motor()
-        #io.cleanup()  # Clean up GPIO
+        io.cleanup()  # Clean up GPIO
 
 def main():
     # Define motor pins
