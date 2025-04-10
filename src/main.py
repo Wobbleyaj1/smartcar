@@ -54,7 +54,7 @@ class SmartCarSystem:
                                 self.movement_controller.turn_left(70)  # Turn left at 30% speed
                             else:
                                 print("Object centered. Moving forward.")
-                                self.movement_controller.move_forward(40)  # Move forward at 50% speed
+                                self.movement_controller.move_forward(60)  # Move forward at 50% speed
                 time.sleep(0.1)
         finally:
             print("Movement thread exiting...")
