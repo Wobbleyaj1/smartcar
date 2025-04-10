@@ -1,16 +1,20 @@
 import RPi.GPIO as io
 
 class MotorController:
-    def __init__(self, in1_pin, in2_pin, frequency=500):
+    def __init__(self, in1_pin, in2_pin, en1_pin=None, frequency=500):
         """Initialize the motor controller."""
         self.in1_pin = in1_pin
         self.in2_pin = in2_pin
+        self.en1_pin = en1_pin
         self.frequency = frequency
 
         # Set up GPIO
         io.setmode(io.BCM)
         io.setup(self.in1_pin, io.OUT)
         io.setup(self.in2_pin, io.OUT)
+        if self.en1_pin is not None:
+            io.setup(self.en1_pin, io.OUT)
+            io.output(self.en1_pin, io.HIGH)  # Enable motor driver by default
 
         # Set up PWM
         self.pwm_in1 = io.PWM(self.in1_pin, self.frequency)
@@ -20,45 +24,46 @@ class MotorController:
 
     def set_motor_speed(self, direction, duty):
         """Set the motor speed and direction."""
-        #print(f"Setting motor to {'clockwise' if direction == 'f' else 'counter-clockwise'} at {duty}% duty cycle")
+        print(f"Setting motor to {'forward' if direction == 'f' else 'reverse'} at {duty}% duty cycle")
         if direction == "f":
-            self.pwm_in1.ChangeDutyCycle(0)
-            self.pwm_in2.ChangeDutyCycle(duty)
-        elif direction == "r":
             self.pwm_in1.ChangeDutyCycle(duty)
             self.pwm_in2.ChangeDutyCycle(0)
+        elif direction == "r":
+            self.pwm_in1.ChangeDutyCycle(0)
+            self.pwm_in2.ChangeDutyCycle(duty)
 
     def stop_motor(self):
         """Stop the motor by setting both PWM duty cycles to 0."""
-        #print("Stopping the motor.")
+        print("Stopping the motor.")
         self.pwm_in1.ChangeDutyCycle(0)
         self.pwm_in2.ChangeDutyCycle(0)
 
+    def disable_motor(self):
+        """Disable the motor driver by setting the enable pin to LOW."""
+        if self.en1_pin is not None:
+            print("Disabling motor driver.")
+            io.output(self.en1_pin, io.LOW)
+
     def cleanup(self):
-        """Stop PWM and clean up GPIO."""
-        #print("Cleaning up GPIO and stopping PWM.")
+        """Stop PWM, disable the motor driver, and clean up GPIO."""
+        print("Cleaning up GPIO and stopping PWM.")
+        self.stop_motor()  # Ensure the motor is stopped
+        if self.en1_pin is not None:
+            io.output(self.en1_pin, io.LOW)  # Explicitly set en1_pin to LOW
         self.pwm_in1.stop()
         self.pwm_in2.stop()
         del self.pwm_in1
         del self.pwm_in2
-        io.cleanup()
-
-    def stop_pwm(self):
-        """Stop PWM for this motor."""
-        self.pwm_in1.stop()
-        self.pwm_in2.stop()
-        del self.pwm_in1
-        del self.pwm_in2
-        io.cleanup()
-
+        io.cleanup()  # Clean up GPIO
 
 def main():
     # Define motor pins
     in1_pin = 23  # GPIO 23 corresponds to physical pin 16
     in2_pin = 24  # GPIO 24 corresponds to physical pin 18
+    en1_pin = 25  # GPIO 25 corresponds to physical pin 22
 
     # Create motor controller instance
-    motor = MotorController(in1_pin, in2_pin)
+    motor = MotorController(in1_pin, in2_pin, en1_pin)
 
     try:
         while True:
