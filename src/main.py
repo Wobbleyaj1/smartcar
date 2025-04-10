@@ -60,6 +60,8 @@ class SmartCarSystem:
                             else:
                                 print("Object centered. Moving forward.")
                                 self.movement_controller.move_forward(100)  # Move forward at 60% speed
+                                time.sleep(0.5)  # Pause briefly to reset
+                                self.movement_controller.stop()
                 time.sleep(0.1)
         finally:
             print("Movement thread exiting...")
