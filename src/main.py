@@ -49,12 +49,13 @@ class SmartCarSystem:
                         else:
                             print("Object not centered. Adjusting position.")
                             pan_angle = self.object_tracker.pan_tilt.get_pan_angle()
-                            if pan_angle > 10:  # Object is to the right
+                            print(f"Pan angle: {pan_angle} degrees")
+                            if pan_angle > 5:  # Object is to the right
                                 print("Object is to the right. Turning right.")
-                                self.movement_controller.turn_right(30)  # Turn right at 30% speed
-                            elif pan_angle < -10:  # Object is to the left
+                                self.movement_controller.turn_right(50)  # Turn right at 30% speed
+                            elif pan_angle < -5:  # Object is to the left
                                 print("Object is to the left. Turning left.")
-                                self.movement_controller.turn_left(30)  # Turn left at 30% speed
+                                self.movement_controller.turn_left(50)  # Turn left at 30% speed
                             else:
                                 if not was_stopped:
                                     print("Object is roughly centered. Stopping to adjust pan-tilt.")
