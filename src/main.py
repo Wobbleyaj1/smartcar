@@ -44,7 +44,7 @@ class SmartCarSystem:
                             print("Object not centered. Adjusting position.")
                             pan_angle = self.object_tracker.pan_tilt.get_pan_angle()
                             print(f"Pan angle: {pan_angle} degrees")
-                            if pan_angle > 20:  # Object is to the right
+                            if pan_angle > 10:  # Object is to the right
                                 print("Object is to the right. Turning right.")
                                 self.movement_controller.stop()
                                 self.movement_controller.turn_right(100)  # Turn right at 30% speed
@@ -54,7 +54,7 @@ class SmartCarSystem:
                                 self.movement_controller.turn_left(100)  # Turn left at 30% speed
                             else:
                                 print("Object centered. Moving forward.")
-                                self.movement_controller.move_forward(50)  # Move forward at 50% speed
+                                self.movement_controller.move_forward(20)  # Move forward at 50% speed
                 time.sleep(0.1)
         finally:
             print("Movement thread exiting...")
