@@ -1,7 +1,7 @@
 import RPi.GPIO as io
 
 class MotorController:
-    def __init__(self, in1_pin, in2_pin, en1_pin=None, frequency=500):
+    def __init__(self, in1_pin, in2_pin, en_pin=None, frequency=500):
         """
         Initialize the motor controller.
         
@@ -13,7 +13,7 @@ class MotorController:
         """
         self.in1_pin = in1_pin
         self.in2_pin = in2_pin
-        self.en1_pin = en1_pin
+        self.en1_pin = en_pin
         self.frequency = frequency
 
         io.setmode(io.BCM)
