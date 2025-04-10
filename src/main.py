@@ -37,6 +37,7 @@ class SmartCarSystem:
                     if self.frame_centered:
                         print("Object centered. Moving forward.")
                         self.movement_controller.move_forward(50)  # Move forward at 50% speed
+                        was_stopped = False
                     else:
                         print("Object not centered. Adjusting position.")
                         pan_angle = self.object_tracker.pan_tilt.get_pan_angle()
@@ -47,8 +48,10 @@ class SmartCarSystem:
                             print("Object is to the left. Turning left.")
                             self.movement_controller.turn_left(30)  # Turn left at 30% speed
                         else:
-                            print("Object is roughly centered. Stopping to adjust pan-tilt.")
-                            self.movement_controller.stop()
+                            if not was_stopped:
+                                print("Object is roughly centered. Stopping to adjust pan-tilt.")
+                                self.movement_controller.stop()
+                                was_stopped = False
             time.sleep(0.1)
 
     def cleanup(self):
