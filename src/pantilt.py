@@ -27,6 +27,8 @@ class PanTiltController:
         self.servo_pan_degree = 90
         # Initialize I2C bus
         self.bus = smbus.SMBus(1)
+        # Initialize pan angle
+        self.pan_angle = 0  
 
     def i2c_write_reg(self, addr, reg, data):
         """Write a byte to a specific register over I2C."""
@@ -145,6 +147,9 @@ class PanTiltController:
                     elif key_val == 'D':
                         self.servo_degree_decrease(self.SERVO_PAN_CH, self.STEP)
 
+    def get_pan_angle(self):
+        return self.pan_angle
+    
     def initialize_to_middle(self):
         """
         Initialize the pan-tilt mechanism and move it to the middle point.
