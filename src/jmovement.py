@@ -47,7 +47,6 @@ class MovementController:
             print("Cleaning up all motors and GPIO.")
             self.motor1.cleanup()
             self.motor2.cleanup()
-            io.cleanup()  # Perform GPIO cleanup once
             self.cleaned_up = True
         else:
             print("Cleanup already performed.")
