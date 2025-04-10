@@ -42,8 +42,6 @@ class MotorController:
         """Stop PWM, disable the motor driver, and clean up GPIO."""
         self.stop_motor()
         
-        io.cleanup()  # Clean up GPIO
-
 def main():
     # Define motor pins
     in1_pin = 23  # GPIO 23 corresponds to physical pin 16
