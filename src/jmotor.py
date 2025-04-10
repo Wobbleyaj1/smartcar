@@ -44,16 +44,10 @@ class MotorController:
             self.pwm_in1.ChangeDutyCycle(0)
             self.pwm_in2.ChangeDutyCycle(duty)
 
-    def cleanup(self):
-        """
-        Stop the motor by setting both PWM duty cycles to 0.
-        """
+    def stop_motor(self):
+        """Stop the motor by setting both PWM duty cycles to 0."""
         self.pwm_in1.ChangeDutyCycle(0)
         self.pwm_in2.ChangeDutyCycle(0)
-
-    def cleanup(self):
-        """Stop PWM, disable the motor driver, and clean up GPIO."""
-        self.stop_motor()
         
 if __name__ == "__main__":
     """
@@ -92,4 +86,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\nExiting program.")
     finally:
-        motor.cleanup()
+        motor.stop_motor()
