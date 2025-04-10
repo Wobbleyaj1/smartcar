@@ -43,13 +43,9 @@ class MovementController:
 
     def cleanup(self):
         """Clean up both motors and GPIO."""
-        if not self.cleaned_up:  # Ensure cleanup is only called once
-            print("Cleaning up all motors and GPIO.")
-            self.motor1.cleanup()
-            self.motor2.cleanup()
-            self.cleaned_up = True
-        else:
-            print("Cleanup already performed.")
+        print("Cleaning up all motors and GPIO.")
+        self.motor1.cleanup()
+        self.motor2.cleanup()
 
 # Example usage
 if __name__ == "__main__":
