@@ -15,8 +15,10 @@ class SmartCarSystem:
 
     def ultrasonic_thread(self):
         while self.running:
+
             self.distance = self.ultrasonic_sensor.get_distance()
-            print(f"Distance: {self.distance} cm")
+            if self.distance > 20:
+                print(f"Distance: {self.distance} cm")
             time.sleep(0.1)
 
     def object_tracking_thread(self):
