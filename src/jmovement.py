@@ -72,8 +72,6 @@ class MovementController:
         #print("Cleaning up all motors.")
         self.motor1.stop_motor()
         self.motor2.stop_motor()
-        io.cleanup()
-
 
 if __name__ == "__main__":
     """
