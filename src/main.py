@@ -10,7 +10,6 @@ class SmartCarSystem:
         self.movement_controller = MovementController()
         self.object_tracker = ObjectTracker(model_path="yolov5nu_ncnn_model", object="person")
         self.distance = None
-        self.frame_centered = False
         self.running = True
 
     def ultrasonic_thread(self):
@@ -26,7 +25,7 @@ class SmartCarSystem:
     def object_tracking_thread(self):
         try:
             while self.running:
-                self.frame_centered = self.object_tracker.track_object()
+                self.object_tracker.track_object()
                 time.sleep(0.1)
         finally:
             print("Object tracking thread exiting...")
@@ -42,25 +41,18 @@ class SmartCarSystem:
                             self.movement_controller.stop()
                             was_stopped = True
                     else:
-                        if self.frame_centered:
-                            print("Object centered. Moving forward.")
-                            self.movement_controller.move_forward(50)  # Move forward at 50% speed
-                            was_stopped = False
-                        else:
                             print("Object not centered. Adjusting position.")
                             pan_angle = self.object_tracker.pan_tilt.get_pan_angle()
                             print(f"Pan angle: {pan_angle} degrees")
-                            if pan_angle > 5:  # Object is to the right
+                            if pan_angle > 20:  # Object is to the right
                                 print("Object is to the right. Turning right.")
                                 self.movement_controller.turn_right(100)  # Turn right at 30% speed
-                            elif pan_angle < -5:  # Object is to the left
+                            elif pan_angle < 0:  # Object is to the left
                                 print("Object is to the left. Turning left.")
                                 self.movement_controller.turn_left(100)  # Turn left at 30% speed
                             else:
-                                if not was_stopped:
-                                    print("Object is roughly centered. Stopping to adjust pan-tilt.")
-                                    self.movement_controller.stop()
-                                    was_stopped = False
+                                print("Object centered. Moving forward.")
+                                self.movement_controller.move_forward(50)  # Move forward at 50% speed
                 time.sleep(0.1)
         finally:
             print("Movement thread exiting...")
