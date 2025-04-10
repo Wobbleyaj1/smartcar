@@ -41,8 +41,7 @@ class MotorController:
     def cleanup(self):
         """Stop PWM, disable the motor driver, and clean up GPIO."""
         self.stop_motor()
-        self.pwm_in1.stop()  # Stop PWM for in1
-        self.pwm_in2.stop()  # Stop PWM for in2
+        
         io.cleanup()  # Clean up GPIO
 
 def main():
