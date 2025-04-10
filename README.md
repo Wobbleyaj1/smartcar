@@ -21,7 +21,7 @@ The SmartCar project is developed by the Mercer Engineering Smart Car Team. This
    git clone https://github.com/Wobbleyaj1/smartcar.git
    cd smartcar
 
-###Acknowledgments
+### Acknowledgments
 - YOLOv5 by Ultralytics for object detection.
 - Mercer Engineering for supporting this project.
 - Open-source contributors for their invaluable tools and libraries.
