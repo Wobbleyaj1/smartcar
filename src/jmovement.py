@@ -21,6 +21,8 @@ class MovementController:
             speed (int): Speed as a percentage (0-100).
         """
         #print(f"Moving forward at {speed}% speed.")
+        self.motor1.stop_motor()
+        self.motor2.stop_motor()
         self.motor1.set_motor_speed(direction="f", duty=speed)
         self.motor2.set_motor_speed(direction="f", duty=speed)
 
